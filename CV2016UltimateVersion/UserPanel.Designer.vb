@@ -27,6 +27,7 @@ Partial Class UserPanel
         Me.btndpdelete = New System.Windows.Forms.Button()
         Me.btndpsave = New System.Windows.Forms.Button()
         Me.txtbdpdni = New System.Windows.Forms.TextBox()
+        Me.pbphoto = New System.Windows.Forms.PictureBox()
         Me.btnupphoto = New System.Windows.Forms.Button()
         Me.txtbdpemail = New System.Windows.Forms.TextBox()
         Me.txtbdptlf = New System.Windows.Forms.TextBox()
@@ -63,11 +64,11 @@ Partial Class UserPanel
         Me.btnprdeluser = New System.Windows.Forms.Button()
         Me.btnprdelcv = New System.Windows.Forms.Button()
         Me.btnprgencv = New System.Windows.Forms.Button()
-        Me.btnClose = New System.Windows.Forms.Button()
-        Me.pbphoto = New System.Windows.Forms.PictureBox()
         Me.UserPhoto = New System.Windows.Forms.PictureBox()
+        Me.btnClose = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.tabdp.SuspendLayout()
+        CType(Me.pbphoto, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabfa.SuspendLayout()
         CType(Me.dgvfa, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabexp.SuspendLayout()
@@ -75,7 +76,6 @@ Partial Class UserPanel
         Me.tabext.SuspendLayout()
         CType(Me.dgvextra, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabprofile.SuspendLayout()
-        CType(Me.pbphoto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.UserPhoto, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -153,6 +153,15 @@ Partial Class UserPanel
         Me.txtbdpdni.Size = New System.Drawing.Size(225, 20)
         Me.txtbdpdni.TabIndex = 10
         Me.txtbdpdni.Text = "Dni"
+        '
+        'pbphoto
+        '
+        Me.pbphoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pbphoto.Location = New System.Drawing.Point(363, 15)
+        Me.pbphoto.Name = "pbphoto"
+        Me.pbphoto.Size = New System.Drawing.Size(126, 132)
+        Me.pbphoto.TabIndex = 9
+        Me.pbphoto.TabStop = False
         '
         'btnupphoto
         '
@@ -518,29 +527,6 @@ Partial Class UserPanel
         Me.btnprgencv.Text = "Generar Curriculum"
         Me.btnprgencv.UseVisualStyleBackColor = False
         '
-        'btnClose
-        '
-        Me.btnClose.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
-        Me.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
-        Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnClose.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.btnClose.ForeColor = System.Drawing.Color.White
-        Me.btnClose.Location = New System.Drawing.Point(564, -2)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(20, 20)
-        Me.btnClose.TabIndex = 8
-        Me.btnClose.Text = "X"
-        Me.btnClose.UseVisualStyleBackColor = False
-        '
-        'pbphoto
-        '
-        Me.pbphoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pbphoto.Location = New System.Drawing.Point(363, 15)
-        Me.pbphoto.Name = "pbphoto"
-        Me.pbphoto.Size = New System.Drawing.Size(126, 132)
-        Me.pbphoto.TabIndex = 9
-        Me.pbphoto.TabStop = False
-        '
         'UserPhoto
         '
         Me.UserPhoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -549,6 +535,21 @@ Partial Class UserPanel
         Me.UserPhoto.Size = New System.Drawing.Size(126, 132)
         Me.UserPhoto.TabIndex = 10
         Me.UserPhoto.TabStop = False
+        '
+        'btnClose
+        '
+        Me.btnClose.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnClose.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnClose.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.ForeColor = System.Drawing.Color.White
+        Me.btnClose.Location = New System.Drawing.Point(550, 0)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(30, 30)
+        Me.btnClose.TabIndex = 8
+        Me.btnClose.Text = "X"
+        Me.btnClose.UseVisualStyleBackColor = False
         '
         'UserPanel
         '
@@ -565,6 +566,7 @@ Partial Class UserPanel
         Me.TabControl1.ResumeLayout(False)
         Me.tabdp.ResumeLayout(False)
         Me.tabdp.PerformLayout()
+        CType(Me.pbphoto, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabfa.ResumeLayout(False)
         Me.tabfa.PerformLayout()
         CType(Me.dgvfa, System.ComponentModel.ISupportInitialize).EndInit()
@@ -575,7 +577,6 @@ Partial Class UserPanel
         Me.tabext.PerformLayout()
         CType(Me.dgvextra, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabprofile.ResumeLayout(False)
-        CType(Me.pbphoto, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.UserPhoto, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

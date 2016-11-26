@@ -106,7 +106,7 @@ Partial Class Register
         '
         Me.Label3.AutoSize = True
         Me.Label3.BackColor = System.Drawing.Color.FromArgb(CType(CType(197, Byte), Integer), CType(CType(197, Byte), Integer), CType(CType(197, Byte), Integer))
-        Me.Label3.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Label3.Cursor = System.Windows.Forms.Cursors.Default
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold)
         Me.Label3.Location = New System.Drawing.Point(26, 456)
         Me.Label3.Name = "Label3"
@@ -167,13 +167,14 @@ Partial Class Register
         'btnClose
         '
         Me.btnClose.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnClose.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
         Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnClose.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.btnClose.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.ForeColor = System.Drawing.Color.White
-        Me.btnClose.Location = New System.Drawing.Point(481, 0)
+        Me.btnClose.Location = New System.Drawing.Point(470, 0)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(20, 20)
+        Me.btnClose.Size = New System.Drawing.Size(30, 30)
         Me.btnClose.TabIndex = 9
         Me.btnClose.Text = "X"
         Me.btnClose.UseVisualStyleBackColor = False
