@@ -185,20 +185,16 @@
     End Sub
 
     Private Sub lblLogin_Click(sender As Object, e As EventArgs) Handles lblLogin.Click
-        Me.Hide()
         Login.Show()
+        Me.Close()
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Dim res As Integer
 
-        res = MsgBox("¿Está seguro que desea salir?", vbYesNo)
+        res = MessageBox.Show("¿Está seguro que desea salir?", "Salida", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
         If res = 6 Then
             Application.Exit()
         End If
-    End Sub
-
-    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
-
     End Sub
 End Class

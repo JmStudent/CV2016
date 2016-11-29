@@ -135,7 +135,7 @@ Public Class AdminPanel
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Dim res As Integer
 
-        res = MsgBox("¿Está seguro que desea salir?", vbYesNo)
+        res = MessageBox.Show("¿Está seguro que desea salir?", "Salida", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
         If res = 6 Then
             Application.Exit()
         End If
