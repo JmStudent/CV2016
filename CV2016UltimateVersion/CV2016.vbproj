@@ -91,6 +91,12 @@
     <Compile Include="Recovery.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RetryPass.Designer.vb">
+      <DependentUpon>RetryPass.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RetryPass.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UserPanel.Designer.vb">
       <DependentUpon>UserPanel.vb</DependentUpon>
     </Compile>
@@ -133,6 +139,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Recovery.resx">
       <DependentUpon>Recovery.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RetryPass.resx">
+      <DependentUpon>RetryPass.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserPanel.resx">
       <DependentUpon>UserPanel.vb</DependentUpon>

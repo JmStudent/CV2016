@@ -95,10 +95,11 @@ Partial Class Login
         '
         Me.lblRecoverPass.AutoSize = True
         Me.lblRecoverPass.BackColor = System.Drawing.Color.FromArgb(CType(CType(197, Byte), Integer), CType(CType(197, Byte), Integer), CType(CType(197, Byte), Integer))
-        Me.lblRecoverPass.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold)
+        Me.lblRecoverPass.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRecoverPass.ForeColor = System.Drawing.SystemColors.Highlight
         Me.lblRecoverPass.Location = New System.Drawing.Point(29, 455)
         Me.lblRecoverPass.Name = "lblRecoverPass"
-        Me.lblRecoverPass.Size = New System.Drawing.Size(170, 17)
+        Me.lblRecoverPass.Size = New System.Drawing.Size(162, 16)
         Me.lblRecoverPass.TabIndex = 5
         Me.lblRecoverPass.Text = "Recuperar contraseña"
         '
@@ -143,6 +144,7 @@ Partial Class Login
         Me.Controls.Add(Me.tbxUser)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
+        Me.Cursor = System.Windows.Forms.Cursors.Hand
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "Login"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
