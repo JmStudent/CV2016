@@ -83,6 +83,7 @@
         Dim query As String
         Dim type As Integer
         Dim pattern As String = tbxPW.Text.Substring(0, 3)
+        RecoveryData.dni = tbxUser.Text
 
         db.connect()
 

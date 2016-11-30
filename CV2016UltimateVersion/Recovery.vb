@@ -77,8 +77,11 @@
             Query = "SELECT pw FROM usuarios where dni = (SELECT dni FROM perfil WHERE email = '" & tbxEmail.Text & "')"
             RecordsDs = ad.query(Query)
             If RecordsDs.Tables(0).Rows().Count = 1 Then
-                GMailSender("gp1visualbasic@gmail.com", "GRUPO1VB", "Recuperación de contraseña", "La contraseña registrada en nuestra Base de datos es: " & Desencriptar(RecordsDs.Tables(0).Rows(0).Item(0)), tbxEmail.Text)
+                Dim newPW = CreateNewPW(12, False)
+                GMailSender("gp1visualbasic@gmail.com", "GRUPO1VB", "Recuperación de contraseña", "La contraseña registrada en nuestra Base de datos es: " & ("gp1" & newPW), tbxEmail.Text)
                 MessageBox.Show("Se le ha enviado la contraseña a su correo", "Aviso de recuperación", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Query = "UPDATE usuarios SET pw = 'gp1" & newPW & "' WHERE dni = (SELECT dni FROM perfil WHERE email = '" & tbxEmail.Text & "')"
+                ad.cud(Query)
                 tbxEmail.ForeColor = Color.Gray
                 tbxEmail.Text = "Email Usuario"
             Else
@@ -110,6 +113,5 @@
         Login.Show()
         Me.Close()
     End Sub
-
 
 End Class

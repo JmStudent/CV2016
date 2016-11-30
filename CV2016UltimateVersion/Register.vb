@@ -83,6 +83,8 @@
         bv.changeColor(tbxConfirmPW, pwCTxtDefault)
     End Sub
 
+    ' ------------------------------------------------------------------------------------------------------
+
     Private Sub btRegister_Click(sender As Object, e As EventArgs) Handles btnRegister.Click
         Dim Query As String
         Dim RecordsDs As DataSet
