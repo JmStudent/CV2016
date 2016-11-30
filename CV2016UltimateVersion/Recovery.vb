@@ -1,11 +1,13 @@
 ﻿Public Class Recovery
     Dim ad As New DataAccess
+    Private bv As New Behavior
     Private isMouseDown As Boolean = False
     Private mouseOffset As Point
+    Private Const emailTxtDefault As String = "Email Usuario"
 
     Private Sub Recovery_Load(sender As Object, e As EventArgs) Handles Me.Load
         tbxEmail.ForeColor = Color.Gray
-        tbxEmail.Text = "Email Usuario"
+        tbxEmail.Text = emailTxtDefault
     End Sub
 
     ' FUNCTIONS FOR WINDOW MOVEMENT ------------------------------------------------------------------------
@@ -41,17 +43,11 @@
     ' FUNCTIONS FOR DISPLAYING TOOLTIPS --------------------------------------------------------------------
 
     Private Sub tbxEmail_Enter(ByVal sender As Object, ByVal e As EventArgs) Handles tbxEmail.Enter
-        If tbxEmail.Text = "Email Usuario" Then
-            tbxEmail.ForeColor = Color.Black
-            tbxEmail.Text = ""
-        End If
+        bv.changeColor(tbxEmail, emailTxtDefault)
     End Sub
 
     Private Sub tbxEmail_Leave(sender As Object, e As EventArgs) Handles tbxEmail.Leave
-        If tbxEmail.Text = String.Empty Then
-            tbxEmail.ForeColor = Color.Gray
-            tbxEmail.Text = "Email Usuario"
-        End If
+        bv.changeColor(tbxEmail, emailTxtDefault)
     End Sub
 
     Private Sub btnRecovery_Click(sender As Object, e As EventArgs) Handles btnRecovery.Click
@@ -59,7 +55,7 @@
         Dim RecordsDs As DataSet
         Dim correctEmail As Boolean = False
 
-        If tbxEmail.Text = "Email Usuario" Then
+        If tbxEmail.Text = emailTxtDefault Then
             epEmail.SetError(tbxEmail, "El campo Email no puede estar vacío")
         Else
             epEmail.Clear()
@@ -83,11 +79,11 @@
                 Query = "UPDATE usuarios SET pw = 'gp1" & newPW & "' WHERE dni = (SELECT dni FROM perfil WHERE email = '" & tbxEmail.Text & "')"
                 ad.cud(Query)
                 tbxEmail.ForeColor = Color.Gray
-                tbxEmail.Text = "Email Usuario"
+                tbxEmail.Text = emailTxtDefault
             Else
                 MessageBox.Show("El email introducido no pertenece a ningún usuario registrado", "Aviso de recuperación", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 tbxEmail.ForeColor = Color.Gray
-                tbxEmail.Text = "Email Usuario"
+                tbxEmail.Text = emailTxtDefault
             End If
         Else
             MessageBox.Show("No se ha podido restablecer la contraseña", "Aviso de recuperación", MessageBoxButtons.OK, MessageBoxIcon.Error)

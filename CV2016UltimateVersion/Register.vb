@@ -92,26 +92,26 @@
         Dim correctNIF As Boolean = False
         Dim correctEmail As Boolean = False
 
-        If tbxUser.Text = "DNI Usuario" Then
+        If tbxUser.Text = userTxtDefault Then
             epUser.SetError(tbxUser, "El campo DNI no puede estar vacío")
         Else
             epUser.Clear()
         End If
 
-        If tbxEmail.Text = "Email Usuario" Then
+        If tbxEmail.Text = emailTxtDefault Then
             epEmail.SetError(tbxEmail, "El campo Email no puede estar vacío")
         Else
             epEmail.Clear()
         End If
 
-        If tbxPW.Text = "Contraseña" Then
-            epPW.SetError(tbxPW, "El campo Contraseña no puede estar vacío")
+        If tbxPW.Text = pwTxtDefault Then
+            epPW.SetError(tbxPW, "El campo Password no puede estar vacío")
         Else
             epPW.Clear()
         End If
 
-        If tbxConfirmPW.Text = "Confirma Contraseña" Then
-            epConfirmPW.SetError(tbxConfirmPW, "El campo Confirmar Contraseña no puede estar vacío")
+        If tbxConfirmPW.Text = pwCTxtDefault Then
+            epConfirmPW.SetError(tbxConfirmPW, "El campo Confirmar Password no puede estar vacío")
         Else
             epConfirmPW.Clear()
         End If
@@ -159,10 +159,10 @@
                 tbxEmail.ForeColor = Color.Gray
                 tbxPW.ForeColor = Color.Gray
                 tbxConfirmPW.ForeColor = Color.Gray
-                tbxUser.Text = "DNI Usuario"
-                tbxEmail.Text = "Email Usuario"
-                tbxPW.Text = "Contraseña"
-                tbxConfirmPW.Text = "Confirma Contraseña"
+                tbxUser.Text = userTxtDefault
+                tbxEmail.Text = emailTxtDefault
+                tbxPW.Text = pwTxtDefault
+                tbxConfirmPW.Text = pwCTxtDefault
             Else
                 Dim pwMD5 = Encriptar(tbxPW.Text)
                 Query = "INSERT INTO usuarios VALUES('" & tbxUser.Text.ToUpper & "','" & pwMD5 & "', 0)"
@@ -176,10 +176,10 @@
                 tbxEmail.ForeColor = Color.Gray
                 tbxPW.ForeColor = Color.Gray
                 tbxConfirmPW.ForeColor = Color.Gray
-                tbxUser.Text = "DNI Usuario"
-                tbxEmail.Text = "Email Usurio"
-                tbxPW.Text = "Contraseña"
-                tbxConfirmPW.Text = "Confirma Contraseña"
+                tbxUser.Text = userTxtDefault
+                tbxEmail.Text = emailTxtDefault
+                tbxPW.Text = pwTxtDefault
+                tbxConfirmPW.Text = pwCTxtDefault
             End If
         Else
             MessageBox.Show("No se han podido insertar los datos", "Aviso de registro", MessageBoxButtons.OK, MessageBoxIcon.Error)
