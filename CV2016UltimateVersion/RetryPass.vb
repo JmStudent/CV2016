@@ -3,8 +3,8 @@
     Private isMouseDown As Boolean = False
     Private mouseOffset As Point
     Private bv As New Behavior
-    Private Const newPW As String = "Contraseña Nueva"
-    Private Const confirmNewPW As String = "Confirma Contraseña Nueva"
+    Private Const newPW As String = "Password"
+    Private Const confirmNewPW As String = "Confirma Password"
     Private Sub RetryPass_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tbxNewPass.ForeColor = Color.Gray
         tbxNewPass2.ForeColor = Color.Gray
@@ -45,6 +45,14 @@
     ' ------------------------------------------------------------------------------------------------------
     ' FUNCTIONS FOR DISPLAYING TOOLTIPS --------------------------------------------------------------------
 
+    Private Sub tbxNewPass_Enter(ByVal sender As Object, ByVal e As EventArgs) Handles tbxNewPass.Enter
+        bv.changeColor(tbxNewPass, newPW)
+    End Sub
+
+    Private Sub tbxNewPass2_Enter(ByVal sender As Object, ByVal e As EventArgs) Handles tbxNewPass2.Enter
+        bv.changeColor(tbxNewPass2, confirmNewPW)
+    End Sub
+
     Private Sub tbxNewPass_Leave(sender As Object, e As EventArgs) Handles tbxNewPass.Leave
         bv.changeColor(tbxNewPass, newPW)
     End Sub
@@ -69,17 +77,15 @@
             epConfirmPW.Clear()
         End If
 
-        If tbxNewPass.Text <> tbxNewPass2.Text Then
-            epPW.SetError(tbxNewPass, "Las contraseñas son diferentes")
-            epConfirmPW.SetError(tbxNewPass2, "Las contraseñas son diferentes")
-        Else
-            epPW.Clear()
-            epConfirmPW.Clear()
-        End If
-
         If checkPW(tbxNewPass.Text) Then
-            correct = True
-            epPW.Clear()
+            If tbxNewPass.Text <> tbxNewPass2.Text Then
+                epPW.SetError(tbxNewPass, "Las contraseñas son diferentes")
+                epConfirmPW.SetError(tbxNewPass2, "Las contraseñas son diferentes")
+            Else
+                correct = True
+                epPW.Clear()
+                epConfirmPW.Clear()
+            End If
         Else
             epPW.SetError(tbxNewPass, "Debe introducir una contraseña de 8 a 16 caracteres (minimo 1 digito, 1 mayúscula y 1 minúscula")
             correct = False
@@ -87,10 +93,18 @@
 
         If correct Then
             Dim pwMD5 = Encriptar(tbxNewPass.Text)
-            Query = "UPDATE usuarios SET pw = '" & pwMD5 & "' WHERE dni = '" & dni & "')"
+            Query = "UPDATE usuarios SET pw = '" & pwMD5 & "' WHERE dni ='" & dni & "'"
             ad.cud(Query)
             MessageBox.Show("Contraseña modificada con éxito", "Cambio de contraseña", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+            tbxNewPass.UseSystemPasswordChar = False
+            tbxNewPass2.UseSystemPasswordChar = False
+            tbxNewPass.ForeColor = Color.Gray
+            tbxNewPass2.ForeColor = Color.Gray
+            tbxNewPass.Text = newPW
+            tbxNewPass2.Text = confirmNewPW
         Else
+            tbxNewPass.UseSystemPasswordChar = False
+            tbxNewPass2.UseSystemPasswordChar = False
             tbxNewPass.ForeColor = Color.Gray
             tbxNewPass2.ForeColor = Color.Gray
             tbxNewPass.Text = newPW

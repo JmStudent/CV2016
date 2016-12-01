@@ -71,7 +71,7 @@ Partial Class RetryPass
         Me.btnRetry.Name = "btnRetry"
         Me.btnRetry.Size = New System.Drawing.Size(434, 40)
         Me.btnRetry.TabIndex = 4
-        Me.btnRetry.Text = "Recuperar"
+        Me.btnRetry.Text = "Modificar Password"
         Me.btnRetry.UseVisualStyleBackColor = False
         '
         'tbxNewPass2
@@ -159,6 +159,7 @@ Partial Class RetryPass
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "RetryPass"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "RetryPass"
         CType(Me.epPW, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.epConfirmPW, System.ComponentModel.ISupportInitialize).EndInit()

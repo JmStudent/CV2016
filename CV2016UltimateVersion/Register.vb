@@ -116,14 +116,6 @@
             epConfirmPW.Clear()
         End If
 
-        If tbxPW.Text <> tbxConfirmPW.Text Then
-            epPW.SetError(tbxPW, "Las contraseñas son diferentes")
-            epConfirmPW.SetError(tbxConfirmPW, "Las contraseñas son diferentes")
-        Else
-            epPW.Clear()
-            epConfirmPW.Clear()
-        End If
-
         If checkNIF(tbxUser.Text) Then
             correctNIF = True
             epUser.Clear()
@@ -141,8 +133,14 @@
         End If
 
         If checkPW(tbxPW.Text) Then
-            correct = True
-            epPW.Clear()
+            If tbxPW.Text <> tbxConfirmPW.Text Then
+                epPW.SetError(tbxPW, "Las contraseñas son diferentes")
+                epConfirmPW.SetError(tbxConfirmPW, "Las contraseñas son diferentes")
+            Else
+                correct = True
+                epPW.Clear()
+                epConfirmPW.Clear()
+            End If
         Else
             epPW.SetError(tbxPW, "Debe introducir una contraseña de 8 a 16 caracteres (minimo 1 digito, 1 mayúscula y 1 minúscula")
             correct = False

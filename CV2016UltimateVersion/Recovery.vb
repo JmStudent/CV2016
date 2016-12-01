@@ -75,7 +75,7 @@
             If RecordsDs.Tables(0).Rows().Count = 1 Then
                 Dim newPW = CreateNewPW(12, False)
                 GMailSender("gp1visualbasic@gmail.com", "GRUPO1VB", "Recuperación de contraseña", "La contraseña registrada en nuestra Base de datos es: " & ("gp1" & newPW), tbxEmail.Text)
-                MessageBox.Show("Se le ha enviado la contraseña a su correo", "Aviso de recuperación", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Se le ha enviado la contraseña a su correo", "Aviso de recuperación", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
                 Query = "UPDATE usuarios SET pw = 'gp1" & newPW & "' WHERE dni = (SELECT dni FROM perfil WHERE email = '" & tbxEmail.Text & "')"
                 ad.cud(Query)
                 tbxEmail.ForeColor = Color.Gray
