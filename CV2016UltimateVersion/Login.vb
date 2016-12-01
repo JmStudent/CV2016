@@ -1,5 +1,5 @@
 ﻿Partial Class Login
-    Inherits BaseForm
+    'Inherits BaseForm
     'Private isMouseDown As Boolean = False
     'Private mouseOffset As Point
     Private bv As New Behavior
