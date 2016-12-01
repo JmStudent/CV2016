@@ -81,33 +81,45 @@
         Dim db As New DataAccess
         Dim ds As New DataSet
         Dim query As String
+        Dim pw As String
         Dim type As Integer
         Dim pattern As String = tbxPW.Text.Substring(0, 3)
         RecoveryData.dni = tbxUser.Text
 
         db.connect()
 
-        If pattern = "gp1" Then
-            query = "SELECT * FROM usuarios where dni = '" & tbxUser.Text & "' and pw = '" & tbxPW.Text & "'"
-        Else
-            query = "SELECT * FROM usuarios where dni = '" & tbxUser.Text & "' and pw = '" & Encriptar(tbxPW.Text) & "'"
-        End If
-
-        ds = db.query(query)
-        If ds.Tables(0).Rows.Count >= 1 Then
-            type = ds.Tables(0).Rows(0).Item(2)
-            If type = 1 Then
-                AdminPanel.Show()
-                Me.Close()
-            ElseIf type = 0 Then
-                MessageBox.Show("Debe esperar a que un administrador active su usuario", "Espera de activación", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            ElseIf type = 2 Then
-                UserPanel.Show()
-                Me.Close()
+        Try
+            If pattern = "gp1" Then
+                query = "SELECT * FROM usuarios where dni = '" & tbxUser.Text & "' and pw = '" & tbxPW.Text & "'"
+            Else
+                query = "SELECT * FROM usuarios where dni = '" & tbxUser.Text & "' and pw = '" & Encriptar(tbxPW.Text) & "'"
             End If
-        Else
-            MessageBox.Show("Login incorrecto!!", "Login incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
+
+            ds = db.query(query)
+            If ds.Tables(0).Rows.Count >= 1 Then
+                pw = ds.Tables(0).Rows(0).Item(1)
+                If pw.Substring(0, 3) = pattern Then
+                    MessageBox.Show("Debe cambiar la contraseña", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    RetryPass.Show()
+                    Me.Close()
+                Else
+                    type = ds.Tables(0).Rows(0).Item(2)
+                    If type = 1 Then
+                        AdminPanel.Show()
+                        Me.Close()
+                    ElseIf type = 0 Then
+                        MessageBox.Show("Debe esperar a que un administrador active su usuario", "Espera de activación", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    ElseIf type = 2 Then
+                        UserPanel.Show()
+                        Me.Close()
+                    End If
+                End If
+            Else
+                MessageBox.Show("Login incorrecto!!", "Login incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Catch ex As Exception
+            MessageBox.Show("No se ha podido conectar con ", "Base de datos", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
