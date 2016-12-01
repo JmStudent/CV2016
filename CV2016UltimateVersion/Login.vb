@@ -1,6 +1,7 @@
-﻿Public Class Login
-    Private isMouseDown As Boolean = False
-    Private mouseOffset As Point
+﻿Partial Class Login
+    Inherits BaseForm
+    'Private isMouseDown As Boolean = False
+    'Private mouseOffset As Point
     Private bv As New Behavior
     Private Const userTxtDefault As String = "DNI Usuario"
     Private Const pwTxtDefault As String = "Password"
@@ -13,31 +14,31 @@
     ' FUNCTIONS FOR WINDOW MOVEMENT ------------------------------------------------------------------------
 
     ' Left mouse button pressed
-    Private Sub Login_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
-        If e.Button = sender.MouseButtons.Left Then
-            ' Get the new position
-            mouseOffset = New Point(-e.X, -e.Y)
-            ' Set that left button is pressed
-            isMouseDown = True
-        End If
-    End Sub
+    'Private Sub Login_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
+    '    If e.Button = sender.MouseButtons.Left Then
+    '        ' Get the new position
+    '        mouseOffset = New Point(-e.X, -e.Y)
+    '        ' Set that left button is pressed
+    '        isMouseDown = True
+    '    End If
+    'End Sub
 
-    ' MouseMove used to check if mouse cursor is moving
-    Private Sub Login_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
-        If isMouseDown Then
-            Dim mousePos As Point = Control.MousePosition
-            ' Get the new form position
-            mousePos.Offset(mouseOffset.X, mouseOffset.Y)
-            Me.Location = mousePos
-        End If
-    End Sub
+    '' MouseMove used to check if mouse cursor is moving
+    'Private Sub Login_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
+    '    If isMouseDown Then
+    '        Dim mousePos As Point = Control.MousePosition
+    '        ' Get the new form position
+    '        mousePos.Offset(mouseOffset.X, mouseOffset.Y)
+    '        Me.Location = mousePos
+    '    End If
+    'End Sub
 
-    ' Left mouse button released, form should stop moving
-    Private Sub Login_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
-        If e.Button = sender.MouseButtons.Left Then
-            isMouseDown = False
-        End If
-    End Sub
+    '' Left mouse button released, form should stop moving
+    'Private Sub Login_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
+    '    If e.Button = sender.MouseButtons.Left Then
+    '        isMouseDown = False
+    '    End If
+    'End Sub
     ' ------------------------------------------------------------------------------------------------------
     ' FUNCTIONS FOR DISPLAYING TOOLTIPS --------------------------------------------------------------------
 
@@ -118,7 +119,7 @@
                 MessageBox.Show("Login incorrecto!!", "Login incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         Catch ex As Exception
-            MessageBox.Show("No se ha podido conectar con ", "Base de datos", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("No ha sido posible identificarse", "Error en la conexión", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
