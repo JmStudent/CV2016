@@ -118,6 +118,7 @@ Partial Class Register
         '
         Me.lblLogin.AutoSize = True
         Me.lblLogin.BackColor = System.Drawing.Color.FromArgb(CType(CType(197, Byte), Integer), CType(CType(197, Byte), Integer), CType(CType(197, Byte), Integer))
+        Me.lblLogin.Cursor = System.Windows.Forms.Cursors.Hand
         Me.lblLogin.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLogin.ForeColor = System.Drawing.SystemColors.Highlight
         Me.lblLogin.Location = New System.Drawing.Point(372, 456)

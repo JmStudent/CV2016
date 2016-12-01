@@ -6,9 +6,9 @@
     Private Const pwTxtDefault As String = "Password"
     Private Sub Login_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tbxUser.ForeColor = Color.Gray
-        TextBox2.ForeColor = Color.Gray
+        tbxPW.ForeColor = Color.Gray
         tbxUser.Text = userTxtDefault
-        TextBox2.Text = pwTxtDefault
+        tbxPW.Text = pwTxtDefault
     End Sub
     ' FUNCTIONS FOR WINDOW MOVEMENT ------------------------------------------------------------------------
 
@@ -45,14 +45,14 @@
         bv.changeColor(tbxUser, userTxtDefault)
     End Sub
 
-    Private Sub TextBox2_Enter(ByVal sender As Object, ByVal e As EventArgs) Handles TextBox2.Enter
-        bv.changeColor(TextBox2, pwTxtDefault)
+    Private Sub TextBox2_Enter(ByVal sender As Object, ByVal e As EventArgs) Handles tbxPW.Enter
+        bv.changeColor(tbxPW, pwTxtDefault)
     End Sub
     Private Sub tbxUser_Leave(sender As Object, e As EventArgs) Handles tbxUser.Leave
         bv.changeColor(tbxUser, userTxtDefault)
     End Sub
-    Private Sub TextBox2_Leave(sender As Object, e As EventArgs) Handles TextBox2.Leave
-        bv.changeColor(TextBox2, pwTxtDefault)
+    Private Sub TextBox2_Leave(sender As Object, e As EventArgs) Handles tbxPW.Leave
+        bv.changeColor(tbxPW, pwTxtDefault)
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -63,42 +63,46 @@
             enterLogin()
         End If
     End Sub
-    Private Sub TextBox2_KeyUp(sender As Object, e As KeyEventArgs) Handles TextBox2.KeyUp
+    Private Sub TextBox2_KeyUp(sender As Object, e As KeyEventArgs) Handles tbxPW.KeyUp
         If e.KeyCode = Keys.Enter Then
             enterLogin()
         End If
     End Sub
     Private Sub Label4_Click(sender As Object, e As EventArgs) Handles Label4.Click
-        Me.Hide()
         Register.Show()
+        Me.Close()
     End Sub
 
     Private Sub lblRecovery_Click(sender As Object, e As EventArgs) Handles lblRecoverPass.Click
-        Me.Hide()
         Recovery.Show()
+        Me.Close()
     End Sub
     Private Sub enterLogin()
         Dim db As New DataAccess
         Dim ds As New DataSet
         Dim query As String
         Dim type As Integer
+        Dim pattern As String = tbxPW.Text.Substring(0, 3)
 
         db.connect()
 
-        query = "SELECT * FROM usuarios where dni = '" & tbxUser.Text & "' and pw = '" & Encriptar(TextBox2.Text) & "'"
+        If pattern = "gp1" Then
+            query = "SELECT * FROM usuarios where dni = '" & tbxUser.Text & "' and pw = '" & tbxPW.Text & "'"
+        Else
+            query = "SELECT * FROM usuarios where dni = '" & tbxUser.Text & "' and pw = '" & Encriptar(tbxPW.Text) & "'"
+        End If
 
         ds = db.query(query)
-
         If ds.Tables(0).Rows.Count >= 1 Then
             type = ds.Tables(0).Rows(0).Item(2)
             If type = 1 Then
-                Me.Hide()
                 AdminPanel.Show()
+                Me.Close()
             ElseIf type = 0 Then
                 MessageBox.Show("Debe esperar a que un administrador active su usuario", "Espera de activación", MessageBoxButtons.OK, MessageBoxIcon.Error)
             ElseIf type = 2 Then
-                Me.Hide()
                 UserPanel.Show()
+                Me.Close()
             End If
         Else
             MessageBox.Show("Login incorrecto!!", "Login incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Error)
