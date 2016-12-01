@@ -165,7 +165,6 @@
                 Dim pwMD5 = Encriptar(tbxPW.Text)
                 Query = "INSERT INTO usuarios VALUES('" & tbxUser.Text.ToUpper & "','" & pwMD5 & "', 0)"
                 ad.cud(Query)
-                MessageBox.Show("Usuario registrado con éxito. El administrador debe desbloquear su cuenta", "Aviso de registro", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
                 Query = "INSERT INTO perfil (dni, email) VALUES('" & tbxUser.Text & "','" & tbxEmail.Text & "')"
                 ad.cud(Query)
                 tbxPW.UseSystemPasswordChar = False
@@ -178,6 +177,9 @@
                 tbxEmail.Text = emailTxtDefault
                 tbxPW.Text = pwTxtDefault
                 tbxConfirmPW.Text = pwCTxtDefault
+                MessageBox.Show("Usuario registrado con éxito. El administrador debe desbloquear su cuenta", "Aviso de registro", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                Login.Show()
+                Me.Close()
             End If
         Else
             MessageBox.Show("No se han podido insertar los datos", "Aviso de registro", MessageBoxButtons.OK, MessageBoxIcon.Error)
