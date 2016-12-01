@@ -1,4 +1,4 @@
-﻿Public Class UserPanel
+﻿Partial Class UserPanel
     Dim lasttext As String
 
     'Nos coloca la marca de agua en el textbox para saber que dato tenemos que poner

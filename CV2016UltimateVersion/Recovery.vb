@@ -1,8 +1,6 @@
-﻿Public Class Recovery
+﻿Partial Class Recovery
     Dim ad As New DataAccess
     Private bv As New Behavior
-    Private isMouseDown As Boolean = False
-    Private mouseOffset As Point
     Private Const emailTxtDefault As String = "Email Usuario"
 
     Private Sub Recovery_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -10,36 +8,6 @@
         tbxEmail.Text = emailTxtDefault
     End Sub
 
-    ' FUNCTIONS FOR WINDOW MOVEMENT ------------------------------------------------------------------------
-
-    ' Left mouse button pressed
-    Private Sub Recovery_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
-        If e.Button = sender.MouseButtons.Left Then
-            ' Get the new position
-            mouseOffset = New Point(-e.X, -e.Y)
-            ' Set that left button is pressed
-            isMouseDown = True
-        End If
-    End Sub
-
-    ' MouseMove used to check if mouse cursor is moving
-    Private Sub Recovery_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
-        If isMouseDown Then
-            Dim mousePos As Point = Control.MousePosition
-            ' Get the new form position
-            mousePos.Offset(mouseOffset.X, mouseOffset.Y)
-            Me.Location = mousePos
-        End If
-    End Sub
-
-    ' Left mouse button released, form should stop moving
-    Private Sub Recovery_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
-        If e.Button = sender.MouseButtons.Left Then
-            isMouseDown = False
-        End If
-    End Sub
-
-    ' ------------------------------------------------------------------------------------------------------
     ' FUNCTIONS FOR DISPLAYING TOOLTIPS --------------------------------------------------------------------
 
     Private Sub tbxEmail_Enter(ByVal sender As Object, ByVal e As EventArgs) Handles tbxEmail.Enter
