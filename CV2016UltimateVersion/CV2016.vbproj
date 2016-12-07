@@ -88,6 +88,7 @@
     <Compile Include="functions\Behavior.vb" />
     <Compile Include="functions\Checks.vb" />
     <Compile Include="functions\EncryptDecrypt.vb" />
+    <Compile Include="functions\PDFGenerator.vb" />
     <Compile Include="Recovery.Designer.vb">
       <DependentUpon>Recovery.vb</DependentUpon>
     </Compile>

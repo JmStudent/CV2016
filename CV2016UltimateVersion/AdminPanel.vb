@@ -236,12 +236,14 @@ Public Class AdminPanel
         If (num3 = 1) Then
             For Each item In checkedItems
                 dni = item.SubItems(0).text
-                'generarpdf(dni)
+                Dim g As New PDFGenerator(dni)
+                g.generate()
 
             Next
             For Each item In checkedItems2
                 dni = item.SubItems(0).text
-                'generarpdf(dni)
+                Dim g As New PDFGenerator(dni)
+                g.generate()
             Next
         Else
             MessageBox.Show("Solo se puede generar un CV a la vez", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
