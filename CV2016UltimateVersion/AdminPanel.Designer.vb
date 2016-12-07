@@ -44,10 +44,11 @@ Partial Class AdminPanel
         Me.lvNoActive.CheckBoxes = True
         Me.lvNoActive.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lvNoActive.GridLines = True
-        Me.lvNoActive.Location = New System.Drawing.Point(30, 125)
+        Me.lvNoActive.Location = New System.Drawing.Point(45, 192)
+        Me.lvNoActive.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.lvNoActive.Name = "lvNoActive"
         Me.lvNoActive.Scrollable = False
-        Me.lvNoActive.Size = New System.Drawing.Size(280, 127)
+        Me.lvNoActive.Size = New System.Drawing.Size(419, 194)
         Me.lvNoActive.TabIndex = 0
         Me.lvNoActive.UseCompatibleStateImageBehavior = False
         Me.lvNoActive.View = System.Windows.Forms.View.Details
@@ -68,9 +69,10 @@ Partial Class AdminPanel
         Me.btnActivate.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnActivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnActivate.ForeColor = System.Drawing.Color.Snow
-        Me.btnActivate.Location = New System.Drawing.Point(130, 323)
+        Me.btnActivate.Location = New System.Drawing.Point(195, 497)
+        Me.btnActivate.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnActivate.Name = "btnActivate"
-        Me.btnActivate.Size = New System.Drawing.Size(97, 25)
+        Me.btnActivate.Size = New System.Drawing.Size(146, 38)
         Me.btnActivate.TabIndex = 2
         Me.btnActivate.Text = "Activar"
         Me.btnActivate.UseVisualStyleBackColor = False
@@ -81,9 +83,10 @@ Partial Class AdminPanel
         Me.btnDelete.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnDelete.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.btnDelete.Location = New System.Drawing.Point(332, 323)
+        Me.btnDelete.Location = New System.Drawing.Point(498, 497)
+        Me.btnDelete.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(97, 25)
+        Me.btnDelete.Size = New System.Drawing.Size(146, 38)
         Me.btnDelete.TabIndex = 3
         Me.btnDelete.Text = "Borrar"
         Me.btnDelete.UseVisualStyleBackColor = False
@@ -92,9 +95,10 @@ Partial Class AdminPanel
         '
         Me.lbNoactive.AutoSize = True
         Me.lbNoactive.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbNoactive.Location = New System.Drawing.Point(78, 92)
+        Me.lbNoactive.Location = New System.Drawing.Point(117, 142)
+        Me.lbNoactive.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbNoactive.Name = "lbNoactive"
-        Me.lbNoactive.Size = New System.Drawing.Size(149, 20)
+        Me.lbNoactive.Size = New System.Drawing.Size(223, 29)
         Me.lbNoactive.TabIndex = 4
         Me.lbNoactive.Text = "Usuarios no Activos"
         '
@@ -104,9 +108,10 @@ Partial Class AdminPanel
         Me.btnGenerateCV.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnGenerateCV.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnGenerateCV.ForeColor = System.Drawing.Color.Snow
-        Me.btnGenerateCV.Location = New System.Drawing.Point(534, 323)
+        Me.btnGenerateCV.Location = New System.Drawing.Point(801, 497)
+        Me.btnGenerateCV.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnGenerateCV.Name = "btnGenerateCV"
-        Me.btnGenerateCV.Size = New System.Drawing.Size(97, 25)
+        Me.btnGenerateCV.Size = New System.Drawing.Size(146, 38)
         Me.btnGenerateCV.TabIndex = 7
         Me.btnGenerateCV.Text = "Generar CV"
         Me.btnGenerateCV.UseVisualStyleBackColor = False
@@ -115,9 +120,10 @@ Partial Class AdminPanel
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(481, 92)
+        Me.Label1.Location = New System.Drawing.Point(722, 142)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(131, 20)
+        Me.Label1.Size = New System.Drawing.Size(196, 29)
         Me.Label1.TabIndex = 8
         Me.Label1.Text = "Usuarios  Activos"
         '
@@ -126,9 +132,10 @@ Partial Class AdminPanel
         Me.Label2.AutoSize = True
         Me.Label2.BackColor = System.Drawing.Color.Transparent
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(256, 33)
+        Me.Label2.Location = New System.Drawing.Point(384, 51)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(214, 24)
+        Me.Label2.Size = New System.Drawing.Size(330, 33)
         Me.Label2.TabIndex = 9
         Me.Label2.Text = "Panel de Administración"
         '
@@ -139,9 +146,10 @@ Partial Class AdminPanel
         Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnClose.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnClose.ForeColor = System.Drawing.Color.White
-        Me.btnClose.Location = New System.Drawing.Point(717, 0)
+        Me.btnClose.Location = New System.Drawing.Point(1076, 0)
+        Me.btnClose.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(20, 20)
+        Me.btnClose.Size = New System.Drawing.Size(30, 31)
         Me.btnClose.TabIndex = 11
         Me.btnClose.Text = "X"
         Me.btnClose.UseVisualStyleBackColor = False
@@ -153,10 +161,11 @@ Partial Class AdminPanel
         Me.lvActive.CheckBoxes = True
         Me.lvActive.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7})
         Me.lvActive.GridLines = True
-        Me.lvActive.Location = New System.Drawing.Point(425, 125)
+        Me.lvActive.Location = New System.Drawing.Point(638, 192)
+        Me.lvActive.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.lvActive.Name = "lvActive"
         Me.lvActive.Scrollable = False
-        Me.lvActive.Size = New System.Drawing.Size(280, 127)
+        Me.lvActive.Size = New System.Drawing.Size(419, 194)
         Me.lvActive.TabIndex = 12
         Me.lvActive.UseCompatibleStateImageBehavior = False
         Me.lvActive.View = System.Windows.Forms.View.Details
@@ -173,11 +182,11 @@ Partial Class AdminPanel
         '
         'AdminPanel
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.BackgroundImage = Global.CV2016UltimateVersion.My.Resources.Resources.admin2
-        Me.ClientSize = New System.Drawing.Size(737, 412)
+        Me.ClientSize = New System.Drawing.Size(1106, 634)
         Me.Controls.Add(Me.lvActive)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.Label2)
@@ -188,6 +197,7 @@ Partial Class AdminPanel
         Me.Controls.Add(Me.btnActivate)
         Me.Controls.Add(Me.lvNoActive)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Name = "AdminPanel"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Panel de Administración"
