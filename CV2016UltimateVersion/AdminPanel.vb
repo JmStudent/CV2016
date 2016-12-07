@@ -142,7 +142,5 @@ Public Class AdminPanel
     End Sub
 
     Private Sub btnGenerateCV_Click(sender As Object, e As EventArgs) Handles btnGenerateCV.Click
-        Dim g As New PDFGenerator("44685141M")
-        g.generate()
     End Sub
 End Class
