@@ -1,6 +1,7 @@
 ﻿Public Class UserPanel
     Dim db As New DataAccess
     Dim path, FinalDate, dateA As String
+    Dim idfromfa, idfromexp, idfromext, total As Integer
 
     Private Sub UserPanel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Colocamos el dia actual como fecha maxima de nacimiento
@@ -94,6 +95,8 @@
 
         AddHandler txtfadesc.GotFocus, AddressOf GotfocusText
         AddHandler txtfadesc.LostFocus, AddressOf LostfocusText
+
+        idfromfa = 0
     End Sub
 
     'Marca de agua en los textbox de la pestaña experiencia
@@ -155,7 +158,7 @@
         Dim query As String
         Dim dsrefill As New DataSet
 
-        query = "Select * from perfil where dni = '12345678Z'"
+        query = "Select * from perfil where dni = '44059473Y'"
         dsrefill = db.query(query)
 
         If dsrefill.Tables(0).Rows.Count > 0 Then
@@ -255,7 +258,8 @@
             End If
             'Ruta
             If (dsrefill.Tables(0).Rows(0).Item(8).ToString = ("")) Then
-                'Nada
+                pbphoto.Image = Nothing
+                UserPhoto.Image = Nothing
             Else
                 path = dsrefill.Tables(0).Rows(0).Item(8)
                 pbphoto.Image = Image.FromFile(path)
@@ -288,7 +292,7 @@
         Dim query As String
         Dim dsrefill As New DataSet
 
-        query = "Select * from formacion where dni = '12345678Z'"
+        query = "Select * from formacion where dni = '44059473Y'"
         dsrefill = db.query(query)
 
         watermarktabfa()
@@ -301,6 +305,7 @@
                     .Add(dsrefill.Tables(0).Rows(i).Item(3))
                     .Add(dsrefill.Tables(0).Rows(i).Item(4))
                     .Add(dsrefill.Tables(0).Rows(i).Item(5))
+                    .Add(dsrefill.Tables(0).Rows(i).Item(6))
                 End With
             End With
         Next
@@ -313,7 +318,7 @@
         Dim query As String
         Dim dsrefill As New DataSet
 
-        query = "Select * from experiencia where dni = '12345678Z'"
+        query = "Select * from experiencia where dni = '44059473Y'"
         dsrefill = db.query(query)
 
         watermarktabexp()
@@ -337,7 +342,7 @@
         Dim query As String
         Dim dsrefill As New DataSet
 
-        query = "Select * from formacion2 where dni = '12345678Z'"
+        query = "Select * from formacion2 where dni = '44059473Y'"
         dsrefill = db.query(query)
 
         watermarktabext()
@@ -381,7 +386,19 @@
     End Sub
 
     Private Sub btnfadelete_Click(sender As Object, e As EventArgs) Handles btnfadelete.Click
-        watermarktabfa()
+        Dim consdelete As String
+
+        consdelete = "DELETE FROM formacion WHERE id = " & idfromfa & " and dni = '44059473Y'"
+        Try
+            db.cud(consdelete)
+
+            watermarktabfa()
+            lvfa.Items.Clear()
+            RefillEducation()
+        Catch ex As Exception
+            MsgBox("Error al borrar el usuario")
+        End Try
+
     End Sub
 
     Private Sub btnexpdelete_Click(sender As Object, e As EventArgs) Handles btnexpdelete.Click
@@ -397,12 +414,8 @@
 
     End Sub
 
-    Private Sub btnprdelcv_Click(sender As Object, e As EventArgs) Handles btnprdelcv.Click
-
-    End Sub
-
     '---------------------------------------------------------------ˇ
-    'Comprobramos campos y guardamos a la bd
+    'Comprobramos campos y guardamos a la bd en la pestaña datos personales.
     Private Sub btndpsave_Click(sender As Object, e As EventArgs) Handles btndpsave.Click
         Dim consupdate As String
         Dim bltlf, blemail As Boolean
@@ -428,10 +441,13 @@
 
             Try
                 If (bltlf = True And blemail = True) Then
-                    consupdate = "UPDATE perfil SET nombre='" & txtbdpname.Text & "', apellidos='" & txtbdpsurname.Text & "', direccion='" & txtdpbdir.Text & "',fecha_nac='" & FinalDate & "',
-                        nacionalidad='" & txtbdpnacionality.Text & "',telefono=" & CInt(txtbdptlf.Text) & ", email='" & txtbdpemail.Text & "',ruta_foto='" & path & "', localidad='" & txtbdplocality.Text & "' WHERE dni='12345678Z'"
 
-                    MsgBox("Datos añadidos correctamente.")
+                    consupdate = "UPDATE perfil SET nombre='" & txtbdpname.Text & "', apellidos='" & txtbdpsurname.Text & "', direccion='" & txtdpbdir.Text & "',fecha_nac='" & FinalDate & "',
+                        nacionalidad='" & txtbdpnacionality.Text & "',telefono=" & CInt(txtbdptlf.Text) & ", email='" & txtbdpemail.Text & "',ruta_foto='" & path & "', localidad='" & txtbdplocality.Text & "' WHERE dni='44059473Y'"
+
+                    db.cud(consupdate)
+
+                    MessageBox.Show("Datos añadidos correctamente.")
                 Else
                     MsgBox("No se han podido añadir los datos")
                 End If
@@ -441,6 +457,156 @@
             End Try
         Else
             MsgBox("Debes rellenar todos los campos.")
+        End If
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Eliminamos la foto del usuario
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btndpdeleteimg.Click
+        Dim consupdate As String
+
+        path = ""
+        pbphoto.Image = Nothing
+        UserPhoto.Image = Nothing
+
+        consupdate = "UPDATE perfil SET ruta_foto='" & path & "' WHERE dni='44059473Y'"
+        db.cud(consupdate)
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Cuando hacemos click en un item de la lista, mostramos los datos en los textbox correspondientes
+    Private Sub lvfa_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvfa.SelectedIndexChanged
+
+        If lvfa.SelectedItems.Count > 0 Then
+
+            'ponemos en negro los textbox
+            txtfaname.ForeColor = Color.Black
+            txtfaplace.ForeColor = Color.Black
+            txtfayearstart.ForeColor = Color.Black
+            txtfayearend.ForeColor = Color.Black
+            txtfadesc.ForeColor = Color.Black
+
+            'mostramos los datos
+            txtfaname.Text = lvfa.SelectedItems(0).SubItems(3).Text
+            txtfaplace.Text = lvfa.SelectedItems(0).SubItems(4).Text
+            txtfayearstart.Text = lvfa.SelectedItems(0).SubItems(1).Text
+            txtfayearend.Text = lvfa.SelectedItems(0).SubItems(2).Text
+            txtfadesc.Text = lvfa.SelectedItems(0).SubItems(5).Text
+
+            'Recogemos el id
+            idfromfa = CInt(lvfa.SelectedItems(0).SubItems(0).Text)
+        End If
+
+    End Sub
+
+    Private Sub tabprofile_Click(sender As Object, e As EventArgs) Handles tabprofile.Click
+
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Comprobamos que el año de inicio no va a ser mayor que el año de fin
+    Private Function checkyears(ByVal iniy As String, ByVal endy As String)
+        If IsNumeric(iniy) And IsNumeric(endy) Then
+            If (CInt(iniy) <= CInt(endy)) Then
+                Return True
+            Else
+                Return False
+            End If
+        Else
+            Return False
+        End If
+    End Function
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Tomamos el id, comprobamos los existentes para colocar id
+    Private Function setId()
+        Dim finalid As Integer
+        Dim consid As String
+        Dim dsrefill As New DataSet
+        Dim numeros = {1, 2, 3}.ToList
+
+        consid = "Select id from formacion where dni = '44059473Y'"
+        dsrefill = db.query(consid)
+
+        'Contamos el numero de filas
+        total = dsrefill.Tables(0).Rows.Count
+
+        If (total >= 3) Then
+
+        Else
+            'Lo insertamos en la matriz
+            Dim ids(0 To total - 1)
+            For i = 0 To total - 1
+                ids(i) = dsrefill.Tables(0).Rows(i).Item(0)
+            Next
+
+            If ids.Contains(1) Then
+                numeros.Remove(1)
+            End If
+
+            If ids.Contains(2) Then
+                numeros.Remove(2)
+            End If
+
+            If ids.Contains(3) Then
+                numeros.Remove(3)
+            End If
+
+            finalid = CInt(numeros(0))
+        End If
+
+        Return finalid
+
+    End Function
+    '---------------------------------------------------------------^
+
+    Private Sub btnfasave_Click(sender As Object, e As EventArgs) Handles btnfasave.Click
+        Dim consupdate, consinsert As String
+
+
+        If (txtfaname.Text <> txtfaname.Tag And txtfaplace.Text <> txtfaplace.Tag And txtfayearstart.Text <> txtfayearstart.Tag And txtfayearend.Text <> txtfayearend.Tag And txtfadesc.Text <> txtfadesc.Tag) Then
+            If (checkyears(txtfayearstart.Text, txtfayearend.Text)) Then
+                consupdate = "UPDATE formacion SET id=" & idfromfa & ", year_inicio ='" & txtfayearstart.Text & "', year_fin ='" & txtfayearend.Text & "', nombre='" & txtfaname.Text & "', lugar = '" & txtfaplace.Text & "', descripcion = '" & txtfadesc.Text & "' WHERE id = " & idfromfa & " and dni = '44059473Y'"
+
+                If (db.cud(consupdate) = 0) Then
+                    consinsert = "INSERT INTO formacion (`dni`, `id`, `year_inicio`, `year_fin`, `nombre`, `lugar`, `descripcion`) VALUES ('44059473Y', " & setId() & " ,'" & txtfayearstart.Text & "','" & txtfayearend.Text & "','" & txtfaname.Text & "','" & txtfaplace.Text & "','" & txtfadesc.Text & "')"
+
+                    If (total < 3) Then
+                        Try
+                            db.cud(consinsert)
+
+                            MsgBox("Insertado correctamente")
+                            watermarktabfa()
+                            lvfa.Items.Clear()
+                            RefillEducation()
+                        Catch ex As Exception
+                            MsgBox("Error al insertar los datos")
+                        End Try
+                    Else
+                        MsgBox("Debes eliminar un campo, solo puedes tener 3 como máximo")
+                    End If
+                Else
+                    Try
+                        db.cud(consupdate)
+
+                        MsgBox("Actualizado correctamente")
+                        watermarktabfa()
+                        lvfa.Items.Clear()
+                        RefillEducation()
+                    Catch ex As Exception
+                        MsgBox("Error al actualizar los datos")
+                    End Try
+                End If
+
+            Else
+                MsgBox("Las fechas son incorrectas")
+            End If
+        Else
+            MsgBox("Debes rellenar todos los campos")
         End If
     End Sub
     '---------------------------------------------------------------^
@@ -469,4 +635,6 @@
         FinalDate = transformDate(dateA)
     End Sub
     '---------------------------------------------------------------^
+
+
 End Class

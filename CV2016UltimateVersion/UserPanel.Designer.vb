@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class UserPanel
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class UserPanel
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
@@ -29,7 +29,6 @@ Partial Class UserPanel
         Me.btndpdelete = New System.Windows.Forms.Button()
         Me.btndpsave = New System.Windows.Forms.Button()
         Me.txtbdpdni = New System.Windows.Forms.TextBox()
-        Me.pbphoto = New System.Windows.Forms.PictureBox()
         Me.btnupphoto = New System.Windows.Forms.Button()
         Me.txtbdpemail = New System.Windows.Forms.TextBox()
         Me.txtbdptlf = New System.Windows.Forms.TextBox()
@@ -74,24 +73,24 @@ Partial Class UserPanel
         Me.txtbexttittle = New System.Windows.Forms.TextBox()
         Me.tabprofile = New System.Windows.Forms.TabPage()
         Me.btnprdeluser = New System.Windows.Forms.Button()
-        Me.btnprdelcv = New System.Windows.Forms.Button()
         Me.btnprgencv = New System.Windows.Forms.Button()
-        Me.UserPhoto = New System.Windows.Forms.PictureBox()
         Me.btnClose = New System.Windows.Forms.Button()
         Me.eptlf = New System.Windows.Forms.ErrorProvider(Me.components)
         Me.epemail = New System.Windows.Forms.ErrorProvider(Me.components)
-        Me.epdate = New System.Windows.Forms.ErrorProvider(Me.components)
+        Me.descfa = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.pbphoto = New System.Windows.Forms.PictureBox()
+        Me.UserPhoto = New System.Windows.Forms.PictureBox()
+        Me.btndpdeleteimg = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.tabdp.SuspendLayout()
-        CType(Me.pbphoto, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabfa.SuspendLayout()
         Me.tabexp.SuspendLayout()
         Me.tabext.SuspendLayout()
         Me.tabprofile.SuspendLayout()
-        CType(Me.UserPhoto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.eptlf, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.epemail, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.epdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbphoto, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.UserPhoto, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -112,6 +111,7 @@ Partial Class UserPanel
         'tabdp
         '
         Me.tabdp.BackColor = System.Drawing.Color.White
+        Me.tabdp.Controls.Add(Me.btndpdeleteimg)
         Me.tabdp.Controls.Add(Me.dtpbirth)
         Me.tabdp.Controls.Add(Me.btndpdelete)
         Me.tabdp.Controls.Add(Me.btndpsave)
@@ -177,16 +177,6 @@ Partial Class UserPanel
         Me.txtbdpdni.Size = New System.Drawing.Size(225, 20)
         Me.txtbdpdni.TabIndex = 10
         '
-        'pbphoto
-        '
-        Me.pbphoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pbphoto.Location = New System.Drawing.Point(363, 15)
-        Me.pbphoto.Name = "pbphoto"
-        Me.pbphoto.Size = New System.Drawing.Size(126, 132)
-        Me.pbphoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.pbphoto.TabIndex = 9
-        Me.pbphoto.TabStop = False
-        '
         'btnupphoto
         '
         Me.btnupphoto.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
@@ -194,7 +184,7 @@ Partial Class UserPanel
         Me.btnupphoto.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnupphoto.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnupphoto.ForeColor = System.Drawing.Color.White
-        Me.btnupphoto.Location = New System.Drawing.Point(374, 159)
+        Me.btnupphoto.Location = New System.Drawing.Point(316, 159)
         Me.btnupphoto.Name = "btnupphoto"
         Me.btnupphoto.Size = New System.Drawing.Size(102, 23)
         Me.btnupphoto.TabIndex = 8
@@ -284,7 +274,8 @@ Partial Class UserPanel
         '
         'lvfa
         '
-        Me.lvfa.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.idfa, Me.year_ini, Me.year_fin, Me.nombrefa, Me.lugarfa})
+        Me.lvfa.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.idfa, Me.year_ini, Me.year_fin, Me.nombrefa, Me.lugarfa, Me.descfa})
+        Me.lvfa.FullRowSelect = True
         Me.lvfa.GridLines = True
         Me.lvfa.Location = New System.Drawing.Point(22, 123)
         Me.lvfa.Name = "lvfa"
@@ -311,12 +302,12 @@ Partial Class UserPanel
         'nombrefa
         '
         Me.nombrefa.Text = "Nombre"
-        Me.nombrefa.Width = 121
+        Me.nombrefa.Width = 65
         '
         'lugarfa
         '
         Me.lugarfa.Text = "Lugar"
-        Me.lugarfa.Width = 152
+        Me.lugarfa.Width = 69
         '
         'btnfadelete
         '
@@ -329,7 +320,7 @@ Partial Class UserPanel
         Me.btnfadelete.Name = "btnfadelete"
         Me.btnfadelete.Size = New System.Drawing.Size(102, 23)
         Me.btnfadelete.TabIndex = 26
-        Me.btnfadelete.Text = "Borrar"
+        Me.btnfadelete.Text = "Borrar Registro"
         Me.btnfadelete.UseVisualStyleBackColor = False
         '
         'btnfasave
@@ -410,7 +401,6 @@ Partial Class UserPanel
         'lvexp
         '
         Me.lvexp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lvexp.CheckBoxes = True
         Me.lvexp.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.idexp, Me.Años, Me.Empresa, Me.Descripcion})
         Me.lvexp.GridLines = True
         Me.lvexp.Location = New System.Drawing.Point(22, 127)
@@ -450,7 +440,7 @@ Partial Class UserPanel
         Me.btnexpdelete.Name = "btnexpdelete"
         Me.btnexpdelete.Size = New System.Drawing.Size(102, 23)
         Me.btnexpdelete.TabIndex = 26
-        Me.btnexpdelete.Text = "Borrar"
+        Me.btnexpdelete.Text = "Borrar Registro"
         Me.btnexpdelete.UseVisualStyleBackColor = False
         '
         'btnexpsave
@@ -513,7 +503,6 @@ Partial Class UserPanel
         '
         Me.lvextras.BackColor = System.Drawing.Color.White
         Me.lvextras.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lvextras.CheckBoxes = True
         Me.lvextras.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.id, Me.tipo, Me.titulo})
         Me.lvextras.GridLines = True
         Me.lvextras.Location = New System.Drawing.Point(21, 110)
@@ -549,7 +538,7 @@ Partial Class UserPanel
         Me.btnextdelete.Name = "btnextdelete"
         Me.btnextdelete.Size = New System.Drawing.Size(102, 23)
         Me.btnextdelete.TabIndex = 26
-        Me.btnextdelete.Text = "Borrar"
+        Me.btnextdelete.Text = "Borrar Registro"
         Me.btnextdelete.UseVisualStyleBackColor = False
         '
         'btnextsave
@@ -588,7 +577,6 @@ Partial Class UserPanel
         '
         Me.tabprofile.BackColor = System.Drawing.Color.White
         Me.tabprofile.Controls.Add(Me.btnprdeluser)
-        Me.tabprofile.Controls.Add(Me.btnprdelcv)
         Me.tabprofile.Controls.Add(Me.btnprgencv)
         Me.tabprofile.Controls.Add(Me.UserPhoto)
         Me.tabprofile.Location = New System.Drawing.Point(4, 22)
@@ -605,26 +593,12 @@ Partial Class UserPanel
         Me.btnprdeluser.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnprdeluser.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnprdeluser.ForeColor = System.Drawing.Color.White
-        Me.btnprdeluser.Location = New System.Drawing.Point(216, 264)
+        Me.btnprdeluser.Location = New System.Drawing.Point(216, 241)
         Me.btnprdeluser.Name = "btnprdeluser"
         Me.btnprdeluser.Size = New System.Drawing.Size(126, 23)
         Me.btnprdeluser.TabIndex = 31
         Me.btnprdeluser.Text = "Borrar Usuario"
         Me.btnprdeluser.UseVisualStyleBackColor = False
-        '
-        'btnprdelcv
-        '
-        Me.btnprdelcv.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
-        Me.btnprdelcv.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
-        Me.btnprdelcv.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnprdelcv.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.btnprdelcv.ForeColor = System.Drawing.Color.White
-        Me.btnprdelcv.Location = New System.Drawing.Point(216, 224)
-        Me.btnprdelcv.Name = "btnprdelcv"
-        Me.btnprdelcv.Size = New System.Drawing.Size(126, 23)
-        Me.btnprdelcv.TabIndex = 30
-        Me.btnprdelcv.Text = "Borrar"
-        Me.btnprdelcv.UseVisualStyleBackColor = False
         '
         'btnprgencv
         '
@@ -633,22 +607,12 @@ Partial Class UserPanel
         Me.btnprgencv.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnprgencv.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnprgencv.ForeColor = System.Drawing.Color.White
-        Me.btnprgencv.Location = New System.Drawing.Point(216, 179)
+        Me.btnprgencv.Location = New System.Drawing.Point(216, 202)
         Me.btnprgencv.Name = "btnprgencv"
         Me.btnprgencv.Size = New System.Drawing.Size(126, 23)
         Me.btnprgencv.TabIndex = 29
         Me.btnprgencv.Text = "Generar Curriculum"
         Me.btnprgencv.UseVisualStyleBackColor = False
-        '
-        'UserPhoto
-        '
-        Me.UserPhoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.UserPhoto.Location = New System.Drawing.Point(216, 20)
-        Me.UserPhoto.Name = "UserPhoto"
-        Me.UserPhoto.Size = New System.Drawing.Size(126, 132)
-        Me.UserPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
-        Me.UserPhoto.TabIndex = 10
-        Me.UserPhoto.TabStop = False
         '
         'btnClose
         '
@@ -673,9 +637,44 @@ Partial Class UserPanel
         '
         Me.epemail.ContainerControl = Me
         '
-        'epdate
+        'descfa
         '
-        Me.epdate.ContainerControl = Me
+        Me.descfa.Text = "Descripción"
+        Me.descfa.Width = 183
+        '
+        'pbphoto
+        '
+        Me.pbphoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pbphoto.Location = New System.Drawing.Point(363, 15)
+        Me.pbphoto.Name = "pbphoto"
+        Me.pbphoto.Size = New System.Drawing.Size(126, 132)
+        Me.pbphoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pbphoto.TabIndex = 9
+        Me.pbphoto.TabStop = False
+        '
+        'UserPhoto
+        '
+        Me.UserPhoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.UserPhoto.Location = New System.Drawing.Point(216, 20)
+        Me.UserPhoto.Name = "UserPhoto"
+        Me.UserPhoto.Size = New System.Drawing.Size(126, 132)
+        Me.UserPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.UserPhoto.TabIndex = 10
+        Me.UserPhoto.TabStop = False
+        '
+        'btndpdeleteimg
+        '
+        Me.btndpdeleteimg.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btndpdeleteimg.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btndpdeleteimg.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btndpdeleteimg.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.btndpdeleteimg.ForeColor = System.Drawing.Color.White
+        Me.btndpdeleteimg.Location = New System.Drawing.Point(424, 159)
+        Me.btndpdeleteimg.Name = "btndpdeleteimg"
+        Me.btndpdeleteimg.Size = New System.Drawing.Size(102, 23)
+        Me.btndpdeleteimg.TabIndex = 31
+        Me.btndpdeleteimg.Text = "Borrar Imagen"
+        Me.btndpdeleteimg.UseVisualStyleBackColor = False
         '
         'UserPanel
         '
@@ -692,7 +691,6 @@ Partial Class UserPanel
         Me.TabControl1.ResumeLayout(False)
         Me.tabdp.ResumeLayout(False)
         Me.tabdp.PerformLayout()
-        CType(Me.pbphoto, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabfa.ResumeLayout(False)
         Me.tabfa.PerformLayout()
         Me.tabexp.ResumeLayout(False)
@@ -700,10 +698,10 @@ Partial Class UserPanel
         Me.tabext.ResumeLayout(False)
         Me.tabext.PerformLayout()
         Me.tabprofile.ResumeLayout(False)
-        CType(Me.UserPhoto, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.eptlf, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.epemail, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.epdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.pbphoto, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.UserPhoto, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -746,7 +744,6 @@ Partial Class UserPanel
     Friend WithEvents UserPhoto As PictureBox
     Friend WithEvents btnprgencv As Button
     Friend WithEvents btnprdeluser As Button
-    Friend WithEvents btnprdelcv As Button
     Friend WithEvents lvextras As ListView
     Friend WithEvents id As ColumnHeader
     Friend WithEvents tipo As ColumnHeader
@@ -765,5 +762,6 @@ Partial Class UserPanel
     Friend WithEvents dtpbirth As DateTimePicker
     Friend WithEvents eptlf As ErrorProvider
     Friend WithEvents epemail As ErrorProvider
-    Friend WithEvents epdate As ErrorProvider
+    Friend WithEvents descfa As ColumnHeader
+    Friend WithEvents btndpdeleteimg As Button
 End Class
