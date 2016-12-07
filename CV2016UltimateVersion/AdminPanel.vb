@@ -1,8 +1,4 @@
 ﻿Imports MySql.Data.MySqlClient
-Imports iTextSharp
-Imports iTextSharp.text
-Imports iTextSharp.text.pdf
-Imports System.IO
 
 Public Class AdminPanel
     Dim ad As New DataAccess
@@ -139,7 +135,7 @@ Public Class AdminPanel
     End Sub
 
 
-    Private Sub btnsearch_Click(sender As Object, e As EventArgs) Handles btnsearch.Click
+    Private Sub btnsearch_Click(sender As Object, e As EventArgs) Handles btnsearch.Click 'buscar usuarios por dni'
 
         Dim query, query2 As String
         Dim slqadpter As New MySqlDataAdapter
@@ -205,7 +201,7 @@ Public Class AdminPanel
         End If
 
     End Sub
-    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click 'cerrar ventana'
         Dim res As Integer
         res = MessageBox.Show("¿Está seguro que desea salir?", "Salida", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
 
@@ -227,7 +223,7 @@ Public Class AdminPanel
         End If
     End Sub
 
-    Private Sub btnGenerateCV_Click(sender As Object, e As EventArgs) Handles btnGenerateCV.Click
+    Private Sub btnGenerateCV_Click(sender As Object, e As EventArgs) Handles btnGenerateCV.Click 'generar pdf'
         Dim checkedItems As ListView.CheckedListViewItemCollection = lvNoActive.CheckedItems
         Dim checkedItems2 As ListView.CheckedListViewItemCollection = lvActive.CheckedItems
         Dim dni As String
