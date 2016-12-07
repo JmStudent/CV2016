@@ -1,12 +1,18 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports iTextSharp
+Imports iTextSharp.text
+Imports iTextSharp.text.pdf
+Imports System.IO
 
 Public Class AdminPanel
     Dim ad As New DataAccess
+
     Private isMouseDown As Boolean = False
     Private mouseOffset As Point
 
-    Private Sub AdminPanel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+    Private Sub AdminPanel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        tbsearch.Text = "Buscar por DNI"
         loadpeople(0, lvNoActive)
         loadpeople(2, lvActive)
 
@@ -70,40 +76,40 @@ Public Class AdminPanel
 
     End Sub
 
-    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click 'borradosde usuarios'
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click 'borrados de usuarios'
         Dim checkedItems As ListView.CheckedListViewItemCollection = lvNoActive.CheckedItems
         Dim checkedItems2 As ListView.CheckedListViewItemCollection = lvActive.CheckedItems
         Dim dni As String
-
+        Dim num1, num2 As Integer
         Dim query As String
-        Dim res = MsgBox("Estas seguro de borrar a al/los usuario/s?", MsgBoxStyle.YesNo)
-        If res = 6 Then
-            For Each item In checkedItems
-                dni = item.SubItems(0).text
-                query = " DELETE FROM  usuarios WHERE dni= '" & dni & "'"
-                ad.cud(query)
-            Next
 
-            For Each item In checkedItems2
-                dni = item.SubItems(0).text
-                query = " DELETE FROM  usuarios WHERE dni= '" & dni & "'"
-                ad.cud(query)
-            Next
+        num1 = checkedItems.Count
+        num2 = checkedItems2.Count
 
-            loadpeople(2, lvActive)
-            loadpeople(0, lvNoActive)
+        If (num1 > 0 Or num2 > 0) Then
+            Dim res = MsgBox("Estas seguro de borrar a al/los usuario/s?", MsgBoxStyle.YesNo)
+            If res = 6 Then
+                For Each item In checkedItems
+                    dni = item.SubItems(0).text
+                    query = " DELETE FROM  usuarios WHERE dni= '" & dni & "'"
+                    ad.cud(query)
+                Next
+
+                For Each item In checkedItems2
+                    dni = item.SubItems(0).text
+                    query = " DELETE FROM  usuarios WHERE dni= '" & dni & "'"
+                    ad.cud(query)
+                Next
+
+                loadpeople(2, lvActive)
+                loadpeople(0, lvNoActive)
+            End If
+
 
         End If
     End Sub
 
-    'Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click 'salir del usuario'
-    '    Dim res As Integer
 
-    '    res = MessageBox.Show("¿Estás seguro de que deseas salir?", "Salida", MessageBoxButtons.YesNo, MessageBoxIcon.Error)
-    '    If res = 6 Then
-    '        Application.Exit()
-    '    End If
-    'End Sub
 
     ' Left mouse button pressed
     Private Sub Login_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
@@ -132,12 +138,122 @@ Public Class AdminPanel
         End If
     End Sub
 
+
+    Private Sub btnsearch_Click(sender As Object, e As EventArgs) Handles btnsearch.Click
+
+        Dim query, query2 As String
+        Dim slqadpter As New MySqlDataAdapter
+        Dim sqlcommand, sqlcommand2 As New MySqlCommand
+        Dim TABLE As New DataTable
+        Dim i As Integer
+        Dim lv As ListView
+
+
+        Dim dni = tbsearch.Text
+        If (Len(dni) = 9) Then
+            query = "SELECT dni, email FROM perfil where dni = '" & dni & "'"
+            query2 = "SELECT tipo FROM usuarios where dni = '" & dni & "'"
+
+
+            With sqlcommand2
+                .CommandText = query2
+                .Connection = ad.connect()
+
+            End With
+            With slqadpter
+                .SelectCommand = sqlcommand2
+            End With
+            Dim value As Object = sqlcommand2.ExecuteScalar()
+
+            If (value = 2) Then
+                lv = lvActive
+            Else
+                lv = lvNoActive
+            End If
+
+
+            With sqlcommand
+                .CommandText = query
+                .Connection = ad.connect()
+
+            End With
+            With slqadpter
+                .SelectCommand = sqlcommand
+                .Fill(TABLE)
+            End With
+
+            lvActive.Items.Clear()
+            lvNoActive.Items.Clear()
+
+            For i = 0 To TABLE.Rows.Count - 1
+                With lv
+                    .Items.Add(TABLE.Rows(i)("dni"))
+                    With .Items(.Items.Count - 1).SubItems
+                        .Add(TABLE.Rows(i)("email"))
+                    End With
+                End With
+            Next
+
+            For i = 0 To lv.Items.Count - 2 Step 2
+                lv.Items(i + 1).BackColor = Color.LightGray
+                lv.Items(i).BackColor = Color.LightCyan
+            Next
+        Else
+            MessageBox.Show("DNI no correcto", "Buscar", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            loadpeople(2, lvActive)
+            loadpeople(0, lvNoActive)
+        End If
+
+    End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Dim res As Integer
+        res = MessageBox.Show("¿Está seguro que desea salir?", "Salida", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
 
-        res = MsgBox("¿Está seguro que desea salir?", vbYesNo)
         If res = 6 Then
             Application.Exit()
         End If
     End Sub
+
+
+
+    Private Sub tbsearch_GotFocus(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbsearch.GotFocus
+        If tbsearch.Text = "Buscar por DNI" Then
+            tbsearch.Text = ""
+        End If
+    End Sub
+    Private Sub Ttbsearch_LostFocus(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbsearch.LostFocus
+        If tbsearch.TextLength = Nothing Then
+            tbsearch.Text = "Buscar por DNI"
+        End If
+    End Sub
+
+    Private Sub btnGenerateCV_Click(sender As Object, e As EventArgs) Handles btnGenerateCV.Click
+        Dim checkedItems As ListView.CheckedListViewItemCollection = lvNoActive.CheckedItems
+        Dim checkedItems2 As ListView.CheckedListViewItemCollection = lvActive.CheckedItems
+        Dim dni As String
+        Dim num1, num2, num3 As Integer
+        num1 = checkedItems.Count
+        num2 = checkedItems2.Count
+        num3 = num1 + num2
+
+
+        If (num3 = 1) Then
+            For Each item In checkedItems
+                dni = item.SubItems(0).text
+                'generarpdf(dni)
+
+            Next
+            For Each item In checkedItems2
+                dni = item.SubItems(0).text
+                'generarpdf(dni)
+            Next
+        Else
+            MessageBox.Show("Solo se puede generar un CV a la vez", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+
+
+
+
+    End Sub
 End Class
+

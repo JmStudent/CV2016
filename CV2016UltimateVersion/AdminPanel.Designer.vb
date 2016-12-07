@@ -31,10 +31,12 @@ Partial Class AdminPanel
         Me.btnGenerateCV = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.btnClose = New System.Windows.Forms.Button()
         Me.lvActive = New System.Windows.Forms.ListView()
         Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader7 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.tbsearch = New System.Windows.Forms.TextBox()
+        Me.btnsearch = New System.Windows.Forms.Button()
+        Me.btnClose = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'lvNoActive
@@ -68,7 +70,7 @@ Partial Class AdminPanel
         Me.btnActivate.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnActivate.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnActivate.ForeColor = System.Drawing.Color.Snow
-        Me.btnActivate.Location = New System.Drawing.Point(130, 323)
+        Me.btnActivate.Location = New System.Drawing.Point(118, 298)
         Me.btnActivate.Name = "btnActivate"
         Me.btnActivate.Size = New System.Drawing.Size(97, 25)
         Me.btnActivate.TabIndex = 2
@@ -81,7 +83,7 @@ Partial Class AdminPanel
         Me.btnDelete.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnDelete.ForeColor = System.Drawing.SystemColors.ButtonHighlight
-        Me.btnDelete.Location = New System.Drawing.Point(332, 323)
+        Me.btnDelete.Location = New System.Drawing.Point(320, 298)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(97, 25)
         Me.btnDelete.TabIndex = 3
@@ -104,7 +106,7 @@ Partial Class AdminPanel
         Me.btnGenerateCV.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.btnGenerateCV.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnGenerateCV.ForeColor = System.Drawing.Color.Snow
-        Me.btnGenerateCV.Location = New System.Drawing.Point(534, 323)
+        Me.btnGenerateCV.Location = New System.Drawing.Point(522, 298)
         Me.btnGenerateCV.Name = "btnGenerateCV"
         Me.btnGenerateCV.Size = New System.Drawing.Size(97, 25)
         Me.btnGenerateCV.TabIndex = 7
@@ -132,20 +134,6 @@ Partial Class AdminPanel
         Me.Label2.TabIndex = 9
         Me.Label2.Text = "Panel de Administración"
         '
-        'btnClose
-        '
-        Me.btnClose.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
-        Me.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
-        Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnClose.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.btnClose.ForeColor = System.Drawing.Color.White
-        Me.btnClose.Location = New System.Drawing.Point(717, 0)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(20, 20)
-        Me.btnClose.TabIndex = 11
-        Me.btnClose.Text = "X"
-        Me.btnClose.UseVisualStyleBackColor = False
-        '
         'lvActive
         '
         Me.lvActive.BackColor = System.Drawing.Color.White
@@ -171,6 +159,39 @@ Partial Class AdminPanel
         Me.ColumnHeader7.Text = "Email"
         Me.ColumnHeader7.Width = 190
         '
+        'tbsearch
+        '
+        Me.tbsearch.Location = New System.Drawing.Point(294, 349)
+        Me.tbsearch.Multiline = True
+        Me.tbsearch.Name = "tbsearch"
+        Me.tbsearch.Size = New System.Drawing.Size(109, 31)
+        Me.tbsearch.TabIndex = 13
+        '
+        'btnsearch
+        '
+        Me.btnsearch.BackgroundImage = Global.CV2016UltimateVersion.My.Resources.Resources.search1
+        Me.btnsearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnsearch.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnsearch.Location = New System.Drawing.Point(409, 349)
+        Me.btnsearch.Name = "btnsearch"
+        Me.btnsearch.Size = New System.Drawing.Size(41, 31)
+        Me.btnsearch.TabIndex = 14
+        Me.btnsearch.UseVisualStyleBackColor = True
+        '
+        'btnClose
+        '
+        Me.btnClose.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnClose.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.ForeColor = System.Drawing.Color.White
+        Me.btnClose.Location = New System.Drawing.Point(717, -1)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(20, 30)
+        Me.btnClose.TabIndex = 15
+        Me.btnClose.Text = "X"
+        Me.btnClose.UseVisualStyleBackColor = False
+        '
         'AdminPanel
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -178,8 +199,10 @@ Partial Class AdminPanel
         Me.BackColor = System.Drawing.SystemColors.ButtonHighlight
         Me.BackgroundImage = Global.CV2016UltimateVersion.My.Resources.Resources.admin2
         Me.ClientSize = New System.Drawing.Size(737, 412)
-        Me.Controls.Add(Me.lvActive)
         Me.Controls.Add(Me.btnClose)
+        Me.Controls.Add(Me.btnsearch)
+        Me.Controls.Add(Me.tbsearch)
+        Me.Controls.Add(Me.lvActive)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btnGenerateCV)
@@ -205,8 +228,10 @@ Partial Class AdminPanel
     Friend WithEvents btnGenerateCV As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
-    Friend WithEvents btnClose As Button
     Friend WithEvents lvActive As ListView
     Friend WithEvents ColumnHeader3 As ColumnHeader
     Friend WithEvents ColumnHeader7 As ColumnHeader
+    Friend WithEvents tbsearch As TextBox
+    Friend WithEvents btnsearch As Button
+    Friend WithEvents btnClose As Button
 End Class
