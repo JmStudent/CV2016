@@ -402,6 +402,7 @@ Partial Class UserPanel
         '
         Me.lvexp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lvexp.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.idexp, Me.Años, Me.Empresa, Me.Descripcion})
+        Me.lvexp.FullRowSelect = True
         Me.lvexp.GridLines = True
         Me.lvexp.Location = New System.Drawing.Point(22, 127)
         Me.lvexp.Name = "lvexp"
@@ -593,7 +594,7 @@ Partial Class UserPanel
         Me.btnprdeluser.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnprdeluser.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnprdeluser.ForeColor = System.Drawing.Color.White
-        Me.btnprdeluser.Location = New System.Drawing.Point(216, 241)
+        Me.btnprdeluser.Location = New System.Drawing.Point(216, 242)
         Me.btnprdeluser.Name = "btnprdeluser"
         Me.btnprdeluser.Size = New System.Drawing.Size(126, 23)
         Me.btnprdeluser.TabIndex = 31
@@ -607,7 +608,7 @@ Partial Class UserPanel
         Me.btnprgencv.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnprgencv.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnprgencv.ForeColor = System.Drawing.Color.White
-        Me.btnprgencv.Location = New System.Drawing.Point(216, 202)
+        Me.btnprgencv.Location = New System.Drawing.Point(216, 203)
         Me.btnprgencv.Name = "btnprgencv"
         Me.btnprgencv.Size = New System.Drawing.Size(126, 23)
         Me.btnprgencv.TabIndex = 29
@@ -655,7 +656,7 @@ Partial Class UserPanel
         'UserPhoto
         '
         Me.UserPhoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.UserPhoto.Location = New System.Drawing.Point(216, 20)
+        Me.UserPhoto.Location = New System.Drawing.Point(216, 35)
         Me.UserPhoto.Name = "UserPhoto"
         Me.UserPhoto.Size = New System.Drawing.Size(126, 132)
         Me.UserPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage

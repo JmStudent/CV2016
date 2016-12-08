@@ -3,6 +3,7 @@
     Dim path, FinalDate, dateA As String
     Dim idfromfa, idfromexp, idfromext, total As Integer
 
+
     Private Sub UserPanel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Colocamos el dia actual como fecha maxima de nacimiento
         dtpbirth.MaxDate = DateTime.Now.Date
@@ -117,6 +118,8 @@
 
         AddHandler txtexpdesc.GotFocus, AddressOf GotfocusText
         AddHandler txtexpdesc.LostFocus, AddressOf LostfocusText
+
+        idfromexp = 0
     End Sub
 
     'Marca de agua en los textbox de la pestaña extras
@@ -132,6 +135,8 @@
 
         AddHandler txtbexttype.GotFocus, AddressOf GotfocusText
         AddHandler txtbexttype.LostFocus, AddressOf LostfocusText
+
+        idfromext = 0
     End Sub
     '---------------------------------------------------------------^
 
@@ -402,7 +407,18 @@
     End Sub
 
     Private Sub btnexpdelete_Click(sender As Object, e As EventArgs) Handles btnexpdelete.Click
-        watermarktabexp()
+        Dim consdelete As String
+
+        consdelete = "DELETE FROM experiencia WHERE id = " & idfromexp & " and dni = '44059473Y'"
+        Try
+            db.cud(consdelete)
+
+            watermarktabexp()
+            lvexp.Items.Clear()
+            RefillExperience()
+        Catch ex As Exception
+            MsgBox("Error al borrar el usuario")
+        End Try
     End Sub
 
     Private Sub btnextdelete_Click(sender As Object, e As EventArgs) Handles btnextdelete.Click
@@ -504,6 +520,27 @@
     Private Sub tabprofile_Click(sender As Object, e As EventArgs) Handles tabprofile.Click
 
     End Sub
+
+
+    Private Sub lvexp_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvexp.SelectedIndexChanged
+
+        If lvexp.SelectedItems.Count > 0 Then
+
+            'ponemos en negro los textbox
+            txtexpcompany.ForeColor = Color.Black
+            txtexpyears.ForeColor = Color.Black
+            txtexpdesc.ForeColor = Color.Black
+
+            'mostramos los datos
+            txtexpyears.Text = lvexp.SelectedItems(0).SubItems(1).Text
+            txtexpcompany.Text = lvexp.SelectedItems(0).SubItems(2).Text
+            txtexpdesc.Text = lvexp.SelectedItems(0).SubItems(3).Text
+
+            'Recogemos el id
+            idfromexp = CInt(lvexp.SelectedItems(0).SubItems(0).Text)
+        End If
+
+    End Sub
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
@@ -523,13 +560,13 @@
 
     '---------------------------------------------------------------ˇ
     'Tomamos el id, comprobamos los existentes para colocar id
-    Private Function setId()
+    Private Function setId(ByVal tabla As String)
         Dim finalid As Integer
         Dim consid As String
         Dim dsrefill As New DataSet
         Dim numeros = {1, 2, 3}.ToList
 
-        consid = "Select id from formacion where dni = '44059473Y'"
+        consid = "Select id from " & tabla & " where dni = '44059473Y'"
         dsrefill = db.query(consid)
 
         'Contamos el numero de filas
@@ -564,16 +601,18 @@
     End Function
     '---------------------------------------------------------------^
 
+    '---------------------------------------------------------------ˇ
+    'Guardamos registros de formacion academica
     Private Sub btnfasave_Click(sender As Object, e As EventArgs) Handles btnfasave.Click
         Dim consupdate, consinsert As String
 
-
         If (txtfaname.Text <> txtfaname.Tag And txtfaplace.Text <> txtfaplace.Tag And txtfayearstart.Text <> txtfayearstart.Tag And txtfayearend.Text <> txtfayearend.Tag And txtfadesc.Text <> txtfadesc.Tag) Then
             If (checkyears(txtfayearstart.Text, txtfayearend.Text)) Then
-                consupdate = "UPDATE formacion SET id=" & idfromfa & ", year_inicio ='" & txtfayearstart.Text & "', year_fin ='" & txtfayearend.Text & "', nombre='" & txtfaname.Text & "', lugar = '" & txtfaplace.Text & "', descripcion = '" & txtfadesc.Text & "' WHERE id = " & idfromfa & " and dni = '44059473Y'"
+
+                consupdate = "UPDATE formacion SET year_inicio ='" & txtfayearstart.Text & "', year_fin ='" & txtfayearend.Text & "', nombre='" & txtfaname.Text & "', lugar = '" & txtfaplace.Text & "', descripcion = '" & txtfadesc.Text & "' WHERE id = " & idfromfa & " and dni = '44059473Y'"
 
                 If (db.cud(consupdate) = 0) Then
-                    consinsert = "INSERT INTO formacion (`dni`, `id`, `year_inicio`, `year_fin`, `nombre`, `lugar`, `descripcion`) VALUES ('44059473Y', " & setId() & " ,'" & txtfayearstart.Text & "','" & txtfayearend.Text & "','" & txtfaname.Text & "','" & txtfaplace.Text & "','" & txtfadesc.Text & "')"
+                    consinsert = "INSERT INTO formacion (`dni`, `id`, `year_inicio`, `year_fin`, `nombre`, `lugar`, `descripcion`) VALUES ('44059473Y', " & setId("formacion") & " ,'" & txtfayearstart.Text & "','" & txtfayearend.Text & "','" & txtfaname.Text & "','" & txtfaplace.Text & "','" & txtfadesc.Text & "')"
 
                     If (total < 3) Then
                         Try
@@ -594,9 +633,13 @@
                         db.cud(consupdate)
 
                         MsgBox("Actualizado correctamente")
+
                         watermarktabfa()
                         lvfa.Items.Clear()
                         RefillEducation()
+
+                        'evitamos que puedas modificar el anterior sin pinchar
+                        idfromfa = 0
                     Catch ex As Exception
                         MsgBox("Error al actualizar los datos")
                     End Try
@@ -608,6 +651,61 @@
         Else
             MsgBox("Debes rellenar todos los campos")
         End If
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Guardamos registros de experiencia
+    Private Sub btnexpsave_Click(sender As Object, e As EventArgs) Handles btnexpsave.Click
+        Dim consupdate, consinsert As String
+
+        If (txtexpcompany.Text <> txtexpcompany.Tag And txtexpyears.Text <> txtexpyears.Tag And txtexpdesc.Text <> txtexpdesc.Tag) Then
+            If (CInt(txtexpyears.Text) > 0 And IsNumeric(txtexpyears.Text)) Then
+                consupdate = "UPDATE experiencia SET years ='" & txtexpyears.Text & "', empresa ='" & txtexpcompany.Text & "', descripcion = '" & txtexpdesc.Text & "' WHERE id = " & idfromexp & " and dni = '44059473Y'"
+
+                If (db.cud(consupdate) = 0) Then
+
+                    consinsert = "INSERT INTO experiencia (`dni`, `id`, `years`, `empresa`, `descripcion`) VALUES ('44059473Y', " & setId("experiencia") & " ,'" & txtexpyears.Text & "','" & txtexpcompany.Text & "','" & txtexpdesc.Text & "')"
+
+                    If (total < 3) Then
+                        Try
+                            db.cud(consinsert)
+
+                            MsgBox("Insertado correctamente")
+
+                            lvexp.Items.Clear()
+                            watermarktabexp()
+                            RefillExperience()
+                        Catch ex As Exception
+                            MsgBox("Error al insertar los datos")
+                        End Try
+                    Else
+                        MsgBox("Debes eliminar un campo, solo puedes tener 3 como máximo")
+                    End If
+                Else
+                    Try
+                        db.cud(consupdate)
+
+                        MsgBox("Actualizado correctamente")
+
+                        lvexp.Items.Clear()
+                        watermarktabexp()
+                        RefillExperience()
+
+                        'evitamos que puedas modificar el anterior sin pinchar
+                        idfromexp = 0
+                    Catch ex As Exception
+                        MsgBox("Error al actualizar los datos")
+                    End Try
+
+                End If
+            Else
+                MsgBox("Debes introducir los años correctamente")
+            End If
+        Else
+            MsgBox("Debes rellenar todos los campos")
+        End If
+
     End Sub
     '---------------------------------------------------------------^
 
@@ -635,6 +733,5 @@
         FinalDate = transformDate(dateA)
     End Sub
     '---------------------------------------------------------------^
-
 
 End Class
