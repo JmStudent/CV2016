@@ -422,7 +422,20 @@
     End Sub
 
     Private Sub btnextdelete_Click(sender As Object, e As EventArgs) Handles btnextdelete.Click
-        watermarktabext()
+        Dim consdelete As String
+
+        consdelete = "DELETE FROM formacion2 WHERE id = " & idfromexp & " and dni = '44059473Y'"
+
+        Try
+            db.cud(consdelete)
+
+            watermarktabext()
+            lvextras.Items.Clear()
+            RefillExtras()
+        Catch ex As Exception
+            MsgBox("Error al borrar el usuario")
+        End Try
+
     End Sub
     '---------------------------------------------------------------^
 
@@ -517,11 +530,6 @@
 
     End Sub
 
-    Private Sub tabprofile_Click(sender As Object, e As EventArgs) Handles tabprofile.Click
-
-    End Sub
-
-
     Private Sub lvexp_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvexp.SelectedIndexChanged
 
         If lvexp.SelectedItems.Count > 0 Then
@@ -538,6 +546,24 @@
 
             'Recogemos el id
             idfromexp = CInt(lvexp.SelectedItems(0).SubItems(0).Text)
+        End If
+
+    End Sub
+
+    Private Sub lvextras_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvextras.SelectedIndexChanged
+
+        If lvextras.SelectedItems.Count > 0 Then
+
+            'ponemos en negro los textbox
+            txtbexttittle.ForeColor = Color.Black
+            txtbexttype.ForeColor = Color.Black
+
+            'mostramos los datos
+            txtbexttype.Text = lvextras.SelectedItems(0).SubItems(1).Text
+            txtbexttittle.Text = lvextras.SelectedItems(0).SubItems(2).Text
+
+            'Recogemos el id
+            idfromext = CInt(lvextras.SelectedItems(0).SubItems(0).Text)
         End If
 
     End Sub
@@ -706,6 +732,55 @@
             MsgBox("Debes rellenar todos los campos")
         End If
 
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Guardamos registros de extras
+    Private Sub btnextsave_Click(sender As Object, e As EventArgs) Handles btnextsave.Click
+        Dim consupdate, consinsert As String
+
+        If (txtbexttittle.Text <> txtbexttittle.Tag And txtbexttype.Text <> txtbexttype.Tag) Then
+            consupdate = "UPDATE formacion2 SET tipo ='" & txtbexttype.Text & "', titulo='" & txtbexttittle.Text & "' WHERE id = " & idfromext & " and dni = '44059473Y'"
+
+            If (db.cud(consupdate) = 0) Then
+
+                consinsert = "INSERT INTO formacion2 (`dni`, `id`, `tipo`, `titulo`) VALUES ('44059473Y'," & setId("formacion2") & ", '" & txtbexttype.Text & "','" & txtbexttittle.Text & "')"
+
+                If (total < 3) Then
+                    Try
+                        db.cud(consinsert)
+
+                        MsgBox("Insertado correctamente")
+
+                        lvextras.Items.Clear()
+                        watermarktabext()
+                        RefillExtras()
+                    Catch ex As Exception
+                        MsgBox("Error al insertar los datos")
+                    End Try
+                Else
+                    MsgBox("Debes eliminar un campo, solo puedes tener 3 como máximo")
+                End If
+            Else
+                Try
+                    db.cud(consupdate)
+
+                    MsgBox("Actualizado correctamente")
+
+                    lvextras.Items.Clear()
+                    watermarktabext()
+                    RefillExtras()
+
+                    'evitamos que puedas modificar el anterior sin pinchar
+                    idfromext = 0
+                Catch ex As Exception
+                    MsgBox("Error al actualizar los datos")
+                End Try
+            End If
+        Else
+            MsgBox("Debes rellenar todos los campos")
+        End If
     End Sub
     '---------------------------------------------------------------^
 
