@@ -424,7 +424,7 @@
     Private Sub btnextdelete_Click(sender As Object, e As EventArgs) Handles btnextdelete.Click
         Dim consdelete As String
 
-        consdelete = "DELETE FROM formacion2 WHERE id = " & idfromexp & " and dni = '44059473Y'"
+        consdelete = "DELETE FROM formacion2 WHERE id = " & idfromext & " and dni = '44059473Y'"
 
         Try
             db.cud(consdelete)
