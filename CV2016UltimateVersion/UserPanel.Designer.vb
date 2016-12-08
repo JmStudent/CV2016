@@ -40,6 +40,7 @@ Partial Class UserPanel
         Me.txtbdpsurname = New System.Windows.Forms.TextBox()
         Me.txtbdpname = New System.Windows.Forms.TextBox()
         Me.tabfa = New System.Windows.Forms.TabPage()
+        Me.btnfaclear = New System.Windows.Forms.Button()
         Me.lvfa = New System.Windows.Forms.ListView()
         Me.idfa = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.year_ini = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -55,6 +56,7 @@ Partial Class UserPanel
         Me.txtfaplace = New System.Windows.Forms.TextBox()
         Me.txtfaname = New System.Windows.Forms.TextBox()
         Me.tabexp = New System.Windows.Forms.TabPage()
+        Me.btnexpclear = New System.Windows.Forms.Button()
         Me.lvexp = New System.Windows.Forms.ListView()
         Me.idexp = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Años = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -66,6 +68,7 @@ Partial Class UserPanel
         Me.txtexpyears = New System.Windows.Forms.TextBox()
         Me.txtexpcompany = New System.Windows.Forms.TextBox()
         Me.tabext = New System.Windows.Forms.TabPage()
+        Me.btnextclear = New System.Windows.Forms.Button()
         Me.lvextras = New System.Windows.Forms.ListView()
         Me.id = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.tipo = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -74,8 +77,7 @@ Partial Class UserPanel
         Me.btnextsave = New System.Windows.Forms.Button()
         Me.txtbexttype = New System.Windows.Forms.TextBox()
         Me.txtbexttittle = New System.Windows.Forms.TextBox()
-        Me.tabprofile = New System.Windows.Forms.TabPage()
-        Me.btnprdeluser = New System.Windows.Forms.Button()
+        Me.tabcv = New System.Windows.Forms.TabPage()
         Me.btnprgencv = New System.Windows.Forms.Button()
         Me.UserPhoto = New System.Windows.Forms.PictureBox()
         Me.btnClose = New System.Windows.Forms.Button()
@@ -87,7 +89,7 @@ Partial Class UserPanel
         Me.tabfa.SuspendLayout()
         Me.tabexp.SuspendLayout()
         Me.tabext.SuspendLayout()
-        Me.tabprofile.SuspendLayout()
+        Me.tabcv.SuspendLayout()
         CType(Me.UserPhoto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.eptlf, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.epemail, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,7 +101,7 @@ Partial Class UserPanel
         Me.TabControl1.Controls.Add(Me.tabfa)
         Me.TabControl1.Controls.Add(Me.tabexp)
         Me.TabControl1.Controls.Add(Me.tabext)
-        Me.TabControl1.Controls.Add(Me.tabprofile)
+        Me.TabControl1.Controls.Add(Me.tabcv)
         Me.TabControl1.Location = New System.Drawing.Point(9, 21)
         Me.TabControl1.Margin = New System.Windows.Forms.Padding(0)
         Me.TabControl1.Name = "TabControl1"
@@ -281,6 +283,7 @@ Partial Class UserPanel
         'tabfa
         '
         Me.tabfa.BackColor = System.Drawing.Color.White
+        Me.tabfa.Controls.Add(Me.btnfaclear)
         Me.tabfa.Controls.Add(Me.lvfa)
         Me.tabfa.Controls.Add(Me.btnfadelete)
         Me.tabfa.Controls.Add(Me.btnfasave)
@@ -295,6 +298,20 @@ Partial Class UserPanel
         Me.tabfa.Size = New System.Drawing.Size(553, 313)
         Me.tabfa.TabIndex = 1
         Me.tabfa.Text = "Formación académica"
+        '
+        'btnfaclear
+        '
+        Me.btnfaclear.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnfaclear.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnfaclear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnfaclear.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.btnfaclear.ForeColor = System.Drawing.Color.White
+        Me.btnfaclear.Location = New System.Drawing.Point(224, 275)
+        Me.btnfaclear.Name = "btnfaclear"
+        Me.btnfaclear.Size = New System.Drawing.Size(102, 23)
+        Me.btnfaclear.TabIndex = 28
+        Me.btnfaclear.Text = "Limpiar Campos"
+        Me.btnfaclear.UseVisualStyleBackColor = False
         '
         'lvfa
         '
@@ -345,7 +362,7 @@ Partial Class UserPanel
         Me.btnfadelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnfadelete.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnfadelete.ForeColor = System.Drawing.Color.White
-        Me.btnfadelete.Location = New System.Drawing.Point(364, 275)
+        Me.btnfadelete.Location = New System.Drawing.Point(404, 275)
         Me.btnfadelete.Name = "btnfadelete"
         Me.btnfadelete.Size = New System.Drawing.Size(102, 23)
         Me.btnfadelete.TabIndex = 26
@@ -359,7 +376,7 @@ Partial Class UserPanel
         Me.btnfasave.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnfasave.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnfasave.ForeColor = System.Drawing.Color.White
-        Me.btnfasave.Location = New System.Drawing.Point(76, 275)
+        Me.btnfasave.Location = New System.Drawing.Point(39, 275)
         Me.btnfasave.Name = "btnfasave"
         Me.btnfasave.Size = New System.Drawing.Size(102, 23)
         Me.btnfasave.TabIndex = 25
@@ -414,6 +431,7 @@ Partial Class UserPanel
         'tabexp
         '
         Me.tabexp.BackColor = System.Drawing.Color.White
+        Me.tabexp.Controls.Add(Me.btnexpclear)
         Me.tabexp.Controls.Add(Me.lvexp)
         Me.tabexp.Controls.Add(Me.btnexpdelete)
         Me.tabexp.Controls.Add(Me.btnexpsave)
@@ -426,6 +444,20 @@ Partial Class UserPanel
         Me.tabexp.Size = New System.Drawing.Size(553, 313)
         Me.tabexp.TabIndex = 2
         Me.tabexp.Text = "Experiencia"
+        '
+        'btnexpclear
+        '
+        Me.btnexpclear.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnexpclear.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnexpclear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnexpclear.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.btnexpclear.ForeColor = System.Drawing.Color.White
+        Me.btnexpclear.Location = New System.Drawing.Point(232, 275)
+        Me.btnexpclear.Name = "btnexpclear"
+        Me.btnexpclear.Size = New System.Drawing.Size(102, 23)
+        Me.btnexpclear.TabIndex = 28
+        Me.btnexpclear.Text = "Limpiar Campos"
+        Me.btnexpclear.UseVisualStyleBackColor = False
         '
         'lvexp
         '
@@ -466,7 +498,7 @@ Partial Class UserPanel
         Me.btnexpdelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnexpdelete.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnexpdelete.ForeColor = System.Drawing.Color.White
-        Me.btnexpdelete.Location = New System.Drawing.Point(364, 275)
+        Me.btnexpdelete.Location = New System.Drawing.Point(411, 275)
         Me.btnexpdelete.Name = "btnexpdelete"
         Me.btnexpdelete.Size = New System.Drawing.Size(102, 23)
         Me.btnexpdelete.TabIndex = 26
@@ -480,7 +512,7 @@ Partial Class UserPanel
         Me.btnexpsave.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnexpsave.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnexpsave.ForeColor = System.Drawing.Color.White
-        Me.btnexpsave.Location = New System.Drawing.Point(76, 275)
+        Me.btnexpsave.Location = New System.Drawing.Point(37, 275)
         Me.btnexpsave.Name = "btnexpsave"
         Me.btnexpsave.Size = New System.Drawing.Size(102, 23)
         Me.btnexpsave.TabIndex = 25
@@ -517,6 +549,7 @@ Partial Class UserPanel
         'tabext
         '
         Me.tabext.BackColor = System.Drawing.Color.White
+        Me.tabext.Controls.Add(Me.btnextclear)
         Me.tabext.Controls.Add(Me.lvextras)
         Me.tabext.Controls.Add(Me.btnextdelete)
         Me.tabext.Controls.Add(Me.btnextsave)
@@ -528,6 +561,20 @@ Partial Class UserPanel
         Me.tabext.Size = New System.Drawing.Size(553, 313)
         Me.tabext.TabIndex = 3
         Me.tabext.Text = "Extras"
+        '
+        'btnextclear
+        '
+        Me.btnextclear.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnextclear.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
+        Me.btnextclear.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnextclear.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
+        Me.btnextclear.ForeColor = System.Drawing.Color.White
+        Me.btnextclear.Location = New System.Drawing.Point(226, 261)
+        Me.btnextclear.Name = "btnextclear"
+        Me.btnextclear.Size = New System.Drawing.Size(102, 23)
+        Me.btnextclear.TabIndex = 30
+        Me.btnextclear.Text = "Limpiar Campos"
+        Me.btnextclear.UseVisualStyleBackColor = False
         '
         'lvextras
         '
@@ -565,7 +612,7 @@ Partial Class UserPanel
         Me.btnextdelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnextdelete.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnextdelete.ForeColor = System.Drawing.Color.White
-        Me.btnextdelete.Location = New System.Drawing.Point(363, 261)
+        Me.btnextdelete.Location = New System.Drawing.Point(406, 261)
         Me.btnextdelete.Name = "btnextdelete"
         Me.btnextdelete.Size = New System.Drawing.Size(102, 23)
         Me.btnextdelete.TabIndex = 26
@@ -579,7 +626,7 @@ Partial Class UserPanel
         Me.btnextsave.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnextsave.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnextsave.ForeColor = System.Drawing.Color.White
-        Me.btnextsave.Location = New System.Drawing.Point(75, 261)
+        Me.btnextsave.Location = New System.Drawing.Point(42, 261)
         Me.btnextsave.Name = "btnextsave"
         Me.btnextsave.Size = New System.Drawing.Size(102, 23)
         Me.btnextsave.TabIndex = 25
@@ -604,32 +651,17 @@ Partial Class UserPanel
         Me.txtbexttittle.TabIndex = 19
         Me.txtbexttittle.Tag = "Título"
         '
-        'tabprofile
+        'tabcv
         '
-        Me.tabprofile.BackColor = System.Drawing.Color.White
-        Me.tabprofile.Controls.Add(Me.btnprdeluser)
-        Me.tabprofile.Controls.Add(Me.btnprgencv)
-        Me.tabprofile.Controls.Add(Me.UserPhoto)
-        Me.tabprofile.Location = New System.Drawing.Point(4, 22)
-        Me.tabprofile.Name = "tabprofile"
-        Me.tabprofile.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabprofile.Size = New System.Drawing.Size(553, 313)
-        Me.tabprofile.TabIndex = 4
-        Me.tabprofile.Text = "Perfil"
-        '
-        'btnprdeluser
-        '
-        Me.btnprdeluser.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
-        Me.btnprdeluser.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(168, Byte), Integer), CType(CType(194, Byte), Integer))
-        Me.btnprdeluser.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnprdeluser.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
-        Me.btnprdeluser.ForeColor = System.Drawing.Color.White
-        Me.btnprdeluser.Location = New System.Drawing.Point(216, 242)
-        Me.btnprdeluser.Name = "btnprdeluser"
-        Me.btnprdeluser.Size = New System.Drawing.Size(126, 23)
-        Me.btnprdeluser.TabIndex = 31
-        Me.btnprdeluser.Text = "Borrar Usuario"
-        Me.btnprdeluser.UseVisualStyleBackColor = False
+        Me.tabcv.BackColor = System.Drawing.Color.White
+        Me.tabcv.Controls.Add(Me.btnprgencv)
+        Me.tabcv.Controls.Add(Me.UserPhoto)
+        Me.tabcv.Location = New System.Drawing.Point(4, 22)
+        Me.tabcv.Name = "tabcv"
+        Me.tabcv.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabcv.Size = New System.Drawing.Size(553, 313)
+        Me.tabcv.TabIndex = 4
+        Me.tabcv.Text = "CV"
         '
         'btnprgencv
         '
@@ -638,7 +670,7 @@ Partial Class UserPanel
         Me.btnprgencv.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnprgencv.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!)
         Me.btnprgencv.ForeColor = System.Drawing.Color.White
-        Me.btnprgencv.Location = New System.Drawing.Point(216, 203)
+        Me.btnprgencv.Location = New System.Drawing.Point(216, 211)
         Me.btnprgencv.Name = "btnprgencv"
         Me.btnprgencv.Size = New System.Drawing.Size(126, 23)
         Me.btnprgencv.TabIndex = 29
@@ -648,9 +680,9 @@ Partial Class UserPanel
         'UserPhoto
         '
         Me.UserPhoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.UserPhoto.Location = New System.Drawing.Point(216, 35)
+        Me.UserPhoto.Location = New System.Drawing.Point(216, 23)
         Me.UserPhoto.Name = "UserPhoto"
-        Me.UserPhoto.Size = New System.Drawing.Size(126, 132)
+        Me.UserPhoto.Size = New System.Drawing.Size(126, 144)
         Me.UserPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
         Me.UserPhoto.TabIndex = 10
         Me.UserPhoto.TabStop = False
@@ -700,7 +732,7 @@ Partial Class UserPanel
         Me.tabexp.PerformLayout()
         Me.tabext.ResumeLayout(False)
         Me.tabext.PerformLayout()
-        Me.tabprofile.ResumeLayout(False)
+        Me.tabcv.ResumeLayout(False)
         CType(Me.UserPhoto, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.eptlf, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.epemail, System.ComponentModel.ISupportInitialize).EndInit()
@@ -713,7 +745,7 @@ Partial Class UserPanel
     Friend WithEvents tabfa As TabPage
     Friend WithEvents tabexp As TabPage
     Friend WithEvents tabext As TabPage
-    Friend WithEvents tabprofile As TabPage
+    Friend WithEvents tabcv As TabPage
     Friend WithEvents txtbdpemail As TextBox
     Friend WithEvents txtbdptlf As TextBox
     Friend WithEvents txtbdpnacionality As TextBox
@@ -745,7 +777,6 @@ Partial Class UserPanel
     Friend WithEvents txtexpyears As TextBox
     Friend WithEvents UserPhoto As PictureBox
     Friend WithEvents btnprgencv As Button
-    Friend WithEvents btnprdeluser As Button
     Friend WithEvents lvextras As ListView
     Friend WithEvents id As ColumnHeader
     Friend WithEvents tipo As ColumnHeader
@@ -766,4 +797,7 @@ Partial Class UserPanel
     Friend WithEvents epemail As ErrorProvider
     Friend WithEvents descfa As ColumnHeader
     Friend WithEvents btndpdeleteimg As Button
+    Friend WithEvents btnfaclear As Button
+    Friend WithEvents btnexpclear As Button
+    Friend WithEvents btnextclear As Button
 End Class

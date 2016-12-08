@@ -1,21 +1,53 @@
 ﻿Public Class UserPanel
     Dim db As New DataAccess
+    Private isMouseDown As Boolean = False
+    Private mouseOffset As Point
     Dim path, FinalDate, dateA As String
     Dim idfromfa, idfromexp, idfromext, total As Integer
-
+    Dim dni = RecoveryData.dni
 
     Private Sub UserPanel_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Colocamos el dia actual como fecha maxima de nacimiento
+        'We place the actual day as the maximum date of birth
         dtpbirth.MaxDate = DateTime.Now.Date
 
-        'Rellenamos con los datos el formulario
+        'Fill in the fields with the data
         RefillUserInformation()
         RefillEducation()
         RefillExperience()
         RefillExtras()
     End Sub
 
-    'Cambio formato de la fecha para que se pueda insertar correctamente en mysql
+    ' FUNCTIONS FOR WINDOW MOVEMENT ------------------------------------------------------------------------
+
+    ' Left mouse button pressed
+    Private Sub Register_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
+        If e.Button = sender.MouseButtons.Left Then
+            ' Get the new position
+            mouseOffset = New Point(-e.X, -e.Y)
+            ' Set that left button is pressed
+            isMouseDown = True
+        End If
+    End Sub
+
+    ' MouseMove used to check if mouse cursor is moving
+    Private Sub Register_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
+        If isMouseDown Then
+            Dim mousePos As Point = Control.MousePosition
+            ' Get the new form position
+            mousePos.Offset(mouseOffset.X, mouseOffset.Y)
+            Me.Location = mousePos
+        End If
+    End Sub
+
+    ' Left mouse button released, form should stop moving
+    Private Sub Register_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
+        If e.Button = sender.MouseButtons.Left Then
+            isMouseDown = False
+        End If
+    End Sub
+
+    '---------------------------------------------------------------ˇ
+    'Change date format so that it can be inserted correctly in mysql
     Private Function transformDate(ByVal a As String)
         Dim datee As String
         datee = a.Substring(6, 4) & "-" & a.Substring(3, 2) & "-" & a.Substring(0, 2)
@@ -23,8 +55,16 @@
     End Function
 
     '---------------------------------------------------------------ˇ
-    'Nos coloca la marca de agua en el textbox para saber que dato tenemos que poner
-    'Marcas de agua en los textbox de la pestaña datos personales
+    'Transform the date when the user selects it
+    Private Sub dtpbirth_ValueChanged(sender As Object, e As EventArgs) Handles dtpbirth.ValueChanged
+        dateA = dtpbirth.Value.Date
+        FinalDate = transformDate(dateA)
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'We place the watermark in the textbox to know what data we have to put
+    'Watermarks in the personal data tab
     Private Sub watermarktabdp()
         txtbdpname.Text = txtbdpname.Tag
         txtbdpsurname.Text = txtbdpsurname.Tag
@@ -68,7 +108,7 @@
         AddHandler txtbdptlf.LostFocus, AddressOf LostfocusText
     End Sub
 
-    'Marcas de agua en los textbox de la pestaña formacion academica
+    'Watermarks in academic formation tab 
     Private Sub watermarktabfa()
         txtfaname.Text = txtfaname.Tag
         txtfaplace.Text = txtfaplace.Tag
@@ -97,10 +137,11 @@
         AddHandler txtfadesc.GotFocus, AddressOf GotfocusText
         AddHandler txtfadesc.LostFocus, AddressOf LostfocusText
 
+        'We prevent you from editing a record without clicking
         idfromfa = 0
     End Sub
 
-    'Marca de agua en los textbox de la pestaña experiencia
+    'Watermark on the experience tab
     Private Sub watermarktabexp()
         txtexpcompany.Text = txtexpcompany.Tag
         txtexpyears.Text = txtexpyears.Tag
@@ -119,10 +160,11 @@
         AddHandler txtexpdesc.GotFocus, AddressOf GotfocusText
         AddHandler txtexpdesc.LostFocus, AddressOf LostfocusText
 
+        'We prevent you from editing a record without clicking
         idfromexp = 0
     End Sub
 
-    'Marca de agua en los textbox de la pestaña extras
+    'Watermark on the extra tab
     Private Sub watermarktabext()
         txtbexttittle.Text = txtbexttittle.Tag
         txtbexttype.Text = txtbexttype.Tag
@@ -136,12 +178,13 @@
         AddHandler txtbexttype.GotFocus, AddressOf GotfocusText
         AddHandler txtbexttype.LostFocus, AddressOf LostfocusText
 
+        'We prevent you from editing a record without clicking
         idfromext = 0
     End Sub
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Focus de los Textbox
+    'Texbox Focus
     Private Sub GotfocusText(ByVal sender As Object, ByVal e As EventArgs)
         If (sender.Text = sender.Tag) Then
             sender.Text = ""
@@ -158,19 +201,19 @@
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Rellenamos los datos de la pestaña Datos Personales
+    'Fill in the Personal Data tab
     Private Sub RefillUserInformation()
         Dim query As String
         Dim dsrefill As New DataSet
 
-        query = "Select * from perfil where dni = '44059473Y'"
+        query = "Select * from perfil where dni = '" & dni & "'"
         dsrefill = db.query(query)
 
         If dsrefill.Tables(0).Rows.Count > 0 Then
             'Dni
             txtbdpdni.Text = dsrefill.Tables(0).Rows(0).Item(0).ToString
 
-            'Nombre
+            'Name
             If (dsrefill.Tables(0).Rows(0).Item(1).ToString.Equals("")) Then
                 txtbdpname.Text = "Nombre"
                 txtbdpname.ForeColor = Color.Gray
@@ -183,7 +226,7 @@
                 AddHandler txtbdpname.LostFocus, AddressOf LostfocusText
             End If
 
-            'Apellidos
+            'Surname
             If (dsrefill.Tables(0).Rows(0).Item(2).ToString = ("")) Then
                 txtbdpsurname.Text = "Apellidos"
                 txtbdpsurname.ForeColor = Color.Gray
@@ -196,7 +239,7 @@
                 AddHandler txtbdpsurname.LostFocus, AddressOf LostfocusText
             End If
 
-            'Direccion
+            'address
             If (dsrefill.Tables(0).Rows(0).Item(3).ToString = ("")) Then
                 txtdpbdir.Text = "Dirección"
                 txtdpbdir.ForeColor = Color.Gray
@@ -209,12 +252,12 @@
                 AddHandler txtdpbdir.LostFocus, AddressOf LostfocusText
             End If
 
-            'Fecha Nacimiento
+            'Birth date
             If (dsrefill.Tables(0).Rows(0).Item(4).ToString = ("")) Then
                 FinalDate = DateTime.Now.Date
                 dateA = dtpbirth.Value.Date
 
-                'Cambio formato de la fecha para que se pueda insertar correctamente en mysql
+                'Change date format so that it can be inserted correctly in mysql
                 FinalDate = transformDate(dateA)
 
             Else
@@ -223,7 +266,7 @@
                 FinalDate = transformDate(dateA)
             End If
 
-            'Nacionalidad
+            'nationality
             If (dsrefill.Tables(0).Rows(0).Item(5).ToString = ("")) Then
                 txtbdpnacionality.Text = "Nacionalidad"
                 txtbdpnacionality.ForeColor = Color.Gray
@@ -236,7 +279,7 @@
                 AddHandler txtbdpnacionality.LostFocus, AddressOf LostfocusText
             End If
 
-            'Telefono
+            'telephone number
             If (dsrefill.Tables(0).Rows(0).Item(6).ToString = ("")) Then
                 txtbdptlf.Text = "Teléfono"
                 txtbdptlf.ForeColor = Color.Gray
@@ -271,7 +314,7 @@
                 UserPhoto.Image = Image.FromFile(path)
             End If
 
-            'Localidad
+            'locality
             If (dsrefill.Tables(0).Rows(0).Item(9).ToString = ("")) Then
                 txtbdplocality.Text = "Localidad"
                 txtbdplocality.ForeColor = Color.Gray
@@ -292,12 +335,12 @@
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Rellenamos los datos de la pestaña Formación academica
+    'Fill in the Education tab
     Private Sub RefillEducation()
         Dim query As String
         Dim dsrefill As New DataSet
 
-        query = "Select * from formacion where dni = '44059473Y'"
+        query = "Select * from formacion where dni = '" & dni & "'"
         dsrefill = db.query(query)
 
         watermarktabfa()
@@ -318,12 +361,12 @@
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Rellenamos los datos de la pestaña Experiencia
+    'Fill in the Experience tab
     Private Sub RefillExperience()
         Dim query As String
         Dim dsrefill As New DataSet
 
-        query = "Select * from experiencia where dni = '44059473Y'"
+        query = "Select * from experiencia where dni = '" & dni & "'"
         dsrefill = db.query(query)
 
         watermarktabexp()
@@ -342,12 +385,12 @@
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Rellenamos los datos de la pestaña Extras
+    'Fill in the Extras tab
     Private Sub RefillExtras()
         Dim query As String
         Dim dsrefill As New DataSet
 
-        query = "Select * from formacion2 where dni = '44059473Y'"
+        query = "Select * from formacion2 where dni = '" & dni & "'"
         dsrefill = db.query(query)
 
         watermarktabext()
@@ -365,7 +408,7 @@
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Boton para salir de la aplicación
+    'Button to quit the application
     Private Sub btnlog_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Dim res As Integer
 
@@ -376,75 +419,255 @@
     End Sub
     '---------------------------------------------------------------^
 
-    Private Sub txtformname_TextChanged(sender As Object, e As EventArgs) Handles txtfaname.TextChanged
+    '---------------------------------------------------------------ˇ
+    'Button for deleting the fields of personal data
+    Private Sub btndpdelete_Click(sender As Object, e As EventArgs) Handles btndpdelete.Click
+        Dim res As Integer
 
+        res = MessageBox.Show("¿Está seguro que desea borrar los campos?", "Borrar", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+        If res = 6 Then
+            watermarktabdp()
+        End If
     End Sub
+    '---------------------------------------------------------------^
 
-    Private Sub txtbemail_TextChanged(sender As Object, e As EventArgs) Handles txtbdpemail.TextChanged
+    '---------------------------------------------------------------ˇ
+    'Button to erase training logs academy
+    Private Sub btnfadelete_Click(sender As Object, e As EventArgs) Handles btnfadelete.Click
+        Dim consdelete As String
+        Dim res As Integer
 
+        res = MessageBox.Show("¿Está seguro que desea borrar el registro?", "Borrar", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+        If res = 6 Then
+            consdelete = "DELETE FROM formacion WHERE id = " & idfromfa & " and dni = '" & dni & "'"
+            Try
+                db.cud(consdelete)
+
+                watermarktabfa()
+                lvfa.Items.Clear()
+                RefillEducation()
+            Catch ex As Exception
+                MessageBox.Show("No se ha podido borrar el registro.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Button to delete the fields of academic formation
+    Private Sub btnfaclear_Click(sender As Object, e As EventArgs) Handles btnfaclear.Click
+        watermarktabfa()
     End Sub
 
     '---------------------------------------------------------------ˇ
-    'Deja los campos vacios en las distintas pestañas
-    Private Sub btndpdelete_Click(sender As Object, e As EventArgs) Handles btndpdelete.Click
-        watermarktabdp()
-    End Sub
-
-    Private Sub btnfadelete_Click(sender As Object, e As EventArgs) Handles btnfadelete.Click
-        Dim consdelete As String
-
-        consdelete = "DELETE FROM formacion WHERE id = " & idfromfa & " and dni = '44059473Y'"
-        Try
-            db.cud(consdelete)
-
-            watermarktabfa()
-            lvfa.Items.Clear()
-            RefillEducation()
-        Catch ex As Exception
-            MsgBox("Error al borrar el usuario")
-        End Try
-
-    End Sub
-
+    'Button to erase the experience log
     Private Sub btnexpdelete_Click(sender As Object, e As EventArgs) Handles btnexpdelete.Click
         Dim consdelete As String
+        Dim res As Integer
 
-        consdelete = "DELETE FROM experiencia WHERE id = " & idfromexp & " and dni = '44059473Y'"
-        Try
-            db.cud(consdelete)
+        res = MessageBox.Show("¿Está seguro que desea borrar los campos?", "Borrar", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+        If res = 6 Then
+            consdelete = "DELETE FROM experiencia WHERE id = " & idfromexp & " and dni = '" & dni & "'"
+            Try
+                db.cud(consdelete)
 
-            watermarktabexp()
-            lvexp.Items.Clear()
-            RefillExperience()
-        Catch ex As Exception
-            MsgBox("Error al borrar el usuario")
-        End Try
+                watermarktabexp()
+                lvexp.Items.Clear()
+                RefillExperience()
+            Catch ex As Exception
+                MessageBox.Show("No se ha podido borrar el registro.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
     End Sub
+    '---------------------------------------------------------------^
 
+    '---------------------------------------------------------------ˇ
+    'Button to erase the fields of experience
+    Private Sub btnexpclear_Click(sender As Object, e As EventArgs) Handles btnexpclear.Click
+        watermarktabexp()
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Button to delete the extras registry
     Private Sub btnextdelete_Click(sender As Object, e As EventArgs) Handles btnextdelete.Click
         Dim consdelete As String
+        Dim res As Integer
 
-        consdelete = "DELETE FROM formacion2 WHERE id = " & idfromext & " and dni = '44059473Y'"
+        res = MessageBox.Show("¿Está seguro que desea borrar los campos?", "Borrar", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+        If res = 6 Then
+            consdelete = "DELETE FROM formacion2 WHERE id = " & idfromext & " and dni = '" & dni & "'"
 
-        Try
-            db.cud(consdelete)
+            Try
+                db.cud(consdelete)
 
-            watermarktabext()
-            lvextras.Items.Clear()
-            RefillExtras()
-        Catch ex As Exception
-            MsgBox("Error al borrar el usuario")
-        End Try
+                watermarktabext()
+                lvextras.Items.Clear()
+                RefillExtras()
+            Catch ex As Exception
+                MessageBox.Show("No se ha podido borrar el registro.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Button to delete extra fields
+    Private Sub btnextclear_Click(sender As Object, e As EventArgs) Handles btnextclear.Click
+        watermarktabext()
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Button to delete the user's photo
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btndpdeleteimg.Click
+        Dim consupdate As String
+        Dim res As Integer
+
+        res = MessageBox.Show("¿Está seguro que desea borrar los campos?", "Borrar", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+        If res = 6 Then
+            path = ""
+            pbphoto.Image = Nothing
+            UserPhoto.Image = Nothing
+
+            consupdate = "UPDATE perfil SET ruta_foto='" & path & "' WHERE dni='" & dni & "'"
+            db.cud(consupdate)
+        End If
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'When we click on an item in the list, we show the data in the corresponding textbox
+    'Academic formation
+    Private Sub lvfa_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvfa.SelectedIndexChanged
+
+        If lvfa.SelectedItems.Count > 0 Then
+
+            txtfaname.ForeColor = Color.Black
+            txtfaplace.ForeColor = Color.Black
+            txtfayearstart.ForeColor = Color.Black
+            txtfayearend.ForeColor = Color.Black
+            txtfadesc.ForeColor = Color.Black
+
+            'We show the data
+            txtfaname.Text = lvfa.SelectedItems(0).SubItems(3).Text
+            txtfaplace.Text = lvfa.SelectedItems(0).SubItems(4).Text
+            txtfayearstart.Text = lvfa.SelectedItems(0).SubItems(1).Text
+            txtfayearend.Text = lvfa.SelectedItems(0).SubItems(2).Text
+            txtfadesc.Text = lvfa.SelectedItems(0).SubItems(5).Text
+
+            'We collect the id
+            idfromfa = CInt(lvfa.SelectedItems(0).SubItems(0).Text)
+        End If
+
+    End Sub
+
+    'Experience
+    Private Sub lvexp_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvexp.SelectedIndexChanged
+
+        If lvexp.SelectedItems.Count > 0 Then
+
+            txtexpcompany.ForeColor = Color.Black
+            txtexpyears.ForeColor = Color.Black
+            txtexpdesc.ForeColor = Color.Black
+
+            'We put the data
+            txtexpyears.Text = lvexp.SelectedItems(0).SubItems(1).Text
+            txtexpcompany.Text = lvexp.SelectedItems(0).SubItems(2).Text
+            txtexpdesc.Text = lvexp.SelectedItems(0).SubItems(3).Text
+
+            'We collect the id
+            idfromexp = CInt(lvexp.SelectedItems(0).SubItems(0).Text)
+        End If
+
+    End Sub
+
+    'Extras
+    Private Sub lvextras_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvextras.SelectedIndexChanged
+
+        If lvextras.SelectedItems.Count > 0 Then
+
+            txtbexttittle.ForeColor = Color.Black
+            txtbexttype.ForeColor = Color.Black
+
+            'We put the data
+            txtbexttype.Text = lvextras.SelectedItems(0).SubItems(1).Text
+            txtbexttittle.Text = lvextras.SelectedItems(0).SubItems(2).Text
+
+            'We collect the id
+            idfromext = CInt(lvextras.SelectedItems(0).SubItems(0).Text)
+        End If
 
     End Sub
     '---------------------------------------------------------------^
 
-    Private Sub txtbdpname_TextChanged(sender As Object, e As EventArgs) Handles txtbdpname.TextChanged
-
-    End Sub
+    '---------------------------------------------------------------ˇ
+    'We verified that the year of beginning is not going to be greater than the year of end
+    Private Function checkyears(ByVal iniy As String, ByVal endy As String)
+        If IsNumeric(iniy) And IsNumeric(endy) Then
+            If (CInt(iniy) <= CInt(endy)) Then
+                Return True
+            Else
+                Return False
+            End If
+        Else
+            Return False
+        End If
+    End Function
+    '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Comprobramos campos y guardamos a la bd en la pestaña datos personales.
+    'Check the existing id for insertion
+    Private Function setId(ByVal tabla As String)
+        Dim finalid As Integer
+        Dim consid As String
+        Dim dsrefill As New DataSet
+        Dim numeros = {1, 2, 3}.ToList
+
+        consid = "Select id from " & tabla & " where dni = '" & dni & "'"
+        dsrefill = db.query(consid)
+
+        'We count the number of rows
+        total = dsrefill.Tables(0).Rows.Count
+
+        If (total >= 3) Then
+
+        Else
+            'We insert it in the array
+            Dim ids(0 To total - 1)
+            For i = 0 To total - 1
+                ids(i) = dsrefill.Tables(0).Rows(i).Item(0)
+            Next
+
+            If ids.Contains(1) Then
+                numeros.Remove(1)
+            End If
+
+            If ids.Contains(2) Then
+                numeros.Remove(2)
+            End If
+
+            If ids.Contains(3) Then
+                numeros.Remove(3)
+            End If
+
+            finalid = CInt(numeros(0))
+        End If
+
+        Return finalid
+
+    End Function
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'Button to generate the pdf
+    Private Sub btnprgencv_Click(sender As Object, e As EventArgs) Handles btnprgencv.Click
+        'Generar curriculum by Jose applelover
+    End Sub
+    '---------------------------------------------------------------^
+
+    '---------------------------------------------------------------ˇ
+    'We check fields and store personal data in the database.
     Private Sub btndpsave_Click(sender As Object, e As EventArgs) Handles btndpsave.Click
         Dim consupdate As String
         Dim bltlf, blemail As Boolean
@@ -472,341 +695,189 @@
                 If (bltlf = True And blemail = True) Then
 
                     consupdate = "UPDATE perfil SET nombre='" & txtbdpname.Text & "', apellidos='" & txtbdpsurname.Text & "', direccion='" & txtdpbdir.Text & "',fecha_nac='" & FinalDate & "',
-                        nacionalidad='" & txtbdpnacionality.Text & "',telefono=" & CInt(txtbdptlf.Text) & ", email='" & txtbdpemail.Text & "',ruta_foto='" & path & "', localidad='" & txtbdplocality.Text & "' WHERE dni='44059473Y'"
+                        nacionalidad='" & txtbdpnacionality.Text & "',telefono=" & CInt(txtbdptlf.Text) & ", email='" & txtbdpemail.Text & "',ruta_foto='" & path & "', localidad='" & txtbdplocality.Text & "' WHERE dni='" & dni & "'"
 
                     db.cud(consupdate)
 
-                    MessageBox.Show("Datos añadidos correctamente.")
+                    MessageBox.Show("Datos añadidos correctamente.", "Información.", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
                 Else
-                    MsgBox("No se han podido añadir los datos")
+                    MessageBox.Show("Compruebe que todos los campos son correctos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
 
             Catch ex As Exception
-                MsgBox("Comprueba que los datos son correctos")
+                MessageBox.Show("No se han podido actualizar los datos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         Else
-            MsgBox("Debes rellenar todos los campos.")
+            MessageBox.Show("Debes rellenar todos los campos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Eliminamos la foto del usuario
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btndpdeleteimg.Click
-        Dim consupdate As String
-
-        path = ""
-        pbphoto.Image = Nothing
-        UserPhoto.Image = Nothing
-
-        consupdate = "UPDATE perfil SET ruta_foto='" & path & "' WHERE dni='44059473Y'"
-        db.cud(consupdate)
-    End Sub
-    '---------------------------------------------------------------^
-
-    '---------------------------------------------------------------ˇ
-    'Cuando hacemos click en un item de la lista, mostramos los datos en los textbox correspondientes
-    Private Sub lvfa_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvfa.SelectedIndexChanged
-
-        If lvfa.SelectedItems.Count > 0 Then
-
-            'ponemos en negro los textbox
-            txtfaname.ForeColor = Color.Black
-            txtfaplace.ForeColor = Color.Black
-            txtfayearstart.ForeColor = Color.Black
-            txtfayearend.ForeColor = Color.Black
-            txtfadesc.ForeColor = Color.Black
-
-            'mostramos los datos
-            txtfaname.Text = lvfa.SelectedItems(0).SubItems(3).Text
-            txtfaplace.Text = lvfa.SelectedItems(0).SubItems(4).Text
-            txtfayearstart.Text = lvfa.SelectedItems(0).SubItems(1).Text
-            txtfayearend.Text = lvfa.SelectedItems(0).SubItems(2).Text
-            txtfadesc.Text = lvfa.SelectedItems(0).SubItems(5).Text
-
-            'Recogemos el id
-            idfromfa = CInt(lvfa.SelectedItems(0).SubItems(0).Text)
-        End If
-
-    End Sub
-
-    Private Sub lvexp_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvexp.SelectedIndexChanged
-
-        If lvexp.SelectedItems.Count > 0 Then
-
-            'ponemos en negro los textbox
-            txtexpcompany.ForeColor = Color.Black
-            txtexpyears.ForeColor = Color.Black
-            txtexpdesc.ForeColor = Color.Black
-
-            'mostramos los datos
-            txtexpyears.Text = lvexp.SelectedItems(0).SubItems(1).Text
-            txtexpcompany.Text = lvexp.SelectedItems(0).SubItems(2).Text
-            txtexpdesc.Text = lvexp.SelectedItems(0).SubItems(3).Text
-
-            'Recogemos el id
-            idfromexp = CInt(lvexp.SelectedItems(0).SubItems(0).Text)
-        End If
-
-    End Sub
-
-    Private Sub lvextras_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvextras.SelectedIndexChanged
-
-        If lvextras.SelectedItems.Count > 0 Then
-
-            'ponemos en negro los textbox
-            txtbexttittle.ForeColor = Color.Black
-            txtbexttype.ForeColor = Color.Black
-
-            'mostramos los datos
-            txtbexttype.Text = lvextras.SelectedItems(0).SubItems(1).Text
-            txtbexttittle.Text = lvextras.SelectedItems(0).SubItems(2).Text
-
-            'Recogemos el id
-            idfromext = CInt(lvextras.SelectedItems(0).SubItems(0).Text)
-        End If
-
-    End Sub
-    '---------------------------------------------------------------^
-
-    '---------------------------------------------------------------ˇ
-    'Comprobamos que el año de inicio no va a ser mayor que el año de fin
-    Private Function checkyears(ByVal iniy As String, ByVal endy As String)
-        If IsNumeric(iniy) And IsNumeric(endy) Then
-            If (CInt(iniy) <= CInt(endy)) Then
-                Return True
-            Else
-                Return False
-            End If
-        Else
-            Return False
-        End If
-    End Function
-    '---------------------------------------------------------------^
-
-    '---------------------------------------------------------------ˇ
-    'Tomamos el id, comprobamos los existentes para colocar id
-    Private Function setId(ByVal tabla As String)
-        Dim finalid As Integer
-        Dim consid As String
-        Dim dsrefill As New DataSet
-        Dim numeros = {1, 2, 3}.ToList
-
-        consid = "Select id from " & tabla & " where dni = '44059473Y'"
-        dsrefill = db.query(consid)
-
-        'Contamos el numero de filas
-        total = dsrefill.Tables(0).Rows.Count
-
-        If (total >= 3) Then
-
-        Else
-            'Lo insertamos en la matriz
-            Dim ids(0 To total - 1)
-            For i = 0 To total - 1
-                ids(i) = dsrefill.Tables(0).Rows(i).Item(0)
-            Next
-
-            If ids.Contains(1) Then
-                numeros.Remove(1)
-            End If
-
-            If ids.Contains(2) Then
-                numeros.Remove(2)
-            End If
-
-            If ids.Contains(3) Then
-                numeros.Remove(3)
-            End If
-
-            finalid = CInt(numeros(0))
-        End If
-
-        Return finalid
-
-    End Function
-    '---------------------------------------------------------------^
-
-    '---------------------------------------------------------------ˇ
-    'Guardamos registros de formacion academica
+    'We check fields and store academic formation in the database.
     Private Sub btnfasave_Click(sender As Object, e As EventArgs) Handles btnfasave.Click
         Dim consupdate, consinsert As String
 
         If (txtfaname.Text <> txtfaname.Tag And txtfaplace.Text <> txtfaplace.Tag And txtfayearstart.Text <> txtfayearstart.Tag And txtfayearend.Text <> txtfayearend.Tag And txtfadesc.Text <> txtfadesc.Tag) Then
             If (checkyears(txtfayearstart.Text, txtfayearend.Text)) Then
 
-                consupdate = "UPDATE formacion SET year_inicio ='" & txtfayearstart.Text & "', year_fin ='" & txtfayearend.Text & "', nombre='" & txtfaname.Text & "', lugar = '" & txtfaplace.Text & "', descripcion = '" & txtfadesc.Text & "' WHERE id = " & idfromfa & " and dni = '44059473Y'"
+                consupdate = "UPDATE formacion SET year_inicio ='" & txtfayearstart.Text & "', year_fin ='" & txtfayearend.Text & "', nombre='" & txtfaname.Text & "', lugar = '" & txtfaplace.Text & "', descripcion = '" & txtfadesc.Text & "' WHERE id = " & idfromfa & " and dni = '" & dni & "'"
 
                 If (db.cud(consupdate) = 0) Then
-                    consinsert = "INSERT INTO formacion (`dni`, `id`, `year_inicio`, `year_fin`, `nombre`, `lugar`, `descripcion`) VALUES ('44059473Y', " & setId("formacion") & " ,'" & txtfayearstart.Text & "','" & txtfayearend.Text & "','" & txtfaname.Text & "','" & txtfaplace.Text & "','" & txtfadesc.Text & "')"
+                    consinsert = "INSERT INTO formacion (`dni`, `id`, `year_inicio`, `year_fin`, `nombre`, `lugar`, `descripcion`) VALUES ('" & dni & "', " & setId("formacion") & " ,'" & txtfayearstart.Text & "','" & txtfayearend.Text & "','" & txtfaname.Text & "','" & txtfaplace.Text & "','" & txtfadesc.Text & "')"
 
                     If (total < 3) Then
                         Try
                             db.cud(consinsert)
 
-                            MsgBox("Insertado correctamente")
+                            MessageBox.Show("Datos insertados correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
                             watermarktabfa()
                             lvfa.Items.Clear()
                             RefillEducation()
                         Catch ex As Exception
-                            MsgBox("Error al insertar los datos")
+                            MessageBox.Show("Se ha producido un error al insertar los datos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                         End Try
                     Else
-                        MsgBox("Debes eliminar un campo, solo puedes tener 3 como máximo")
+                        MessageBox.Show("Debes eliminar un campo, solo puedes tener 3 como máximo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End If
                 Else
                     Try
                         db.cud(consupdate)
 
-                        MsgBox("Actualizado correctamente")
+                        MessageBox.Show("Datos actualizados correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                         watermarktabfa()
                         lvfa.Items.Clear()
                         RefillEducation()
 
-                        'evitamos que puedas modificar el anterior sin pinchar
-                        idfromfa = 0
                     Catch ex As Exception
-                        MsgBox("Error al actualizar los datos")
+                        MessageBox.Show("No se han podido actualizar los datos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End Try
                 End If
 
             Else
-                MsgBox("Las fechas son incorrectas")
+                MessageBox.Show("Debes introducir los años correctamente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         Else
-            MsgBox("Debes rellenar todos los campos")
+            MessageBox.Show("Debes rellenar todos los campos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Guardamos registros de experiencia
+    'We check fields and store experience in the database.
     Private Sub btnexpsave_Click(sender As Object, e As EventArgs) Handles btnexpsave.Click
         Dim consupdate, consinsert As String
 
         If (txtexpcompany.Text <> txtexpcompany.Tag And txtexpyears.Text <> txtexpyears.Tag And txtexpdesc.Text <> txtexpdesc.Tag) Then
             If (CInt(txtexpyears.Text) > 0 And IsNumeric(txtexpyears.Text)) Then
-                consupdate = "UPDATE experiencia SET years ='" & txtexpyears.Text & "', empresa ='" & txtexpcompany.Text & "', descripcion = '" & txtexpdesc.Text & "' WHERE id = " & idfromexp & " and dni = '44059473Y'"
+                consupdate = "UPDATE experiencia SET years ='" & txtexpyears.Text & "', empresa ='" & txtexpcompany.Text & "', descripcion = '" & txtexpdesc.Text & "' WHERE id = " & idfromexp & " and dni = '" & dni & "'"
 
                 If (db.cud(consupdate) = 0) Then
 
-                    consinsert = "INSERT INTO experiencia (`dni`, `id`, `years`, `empresa`, `descripcion`) VALUES ('44059473Y', " & setId("experiencia") & " ,'" & txtexpyears.Text & "','" & txtexpcompany.Text & "','" & txtexpdesc.Text & "')"
+                    consinsert = "INSERT INTO experiencia (`dni`, `id`, `years`, `empresa`, `descripcion`) VALUES ('" & dni & "', " & setId("experiencia") & " ,'" & txtexpyears.Text & "','" & txtexpcompany.Text & "','" & txtexpdesc.Text & "')"
 
                     If (total < 3) Then
                         Try
+
                             db.cud(consinsert)
 
-                            MsgBox("Insertado correctamente")
+                            MessageBox.Show("Datos insertados correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                             lvexp.Items.Clear()
                             watermarktabexp()
                             RefillExperience()
                         Catch ex As Exception
-                            MsgBox("Error al insertar los datos")
+                            MessageBox.Show("Se ha producido un error al insertar los datos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                         End Try
                     Else
-                        MsgBox("Debes eliminar un campo, solo puedes tener 3 como máximo")
+                        MessageBox.Show("Debes eliminar un campo, solo puedes tener 3 como máximo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End If
                 Else
                     Try
                         db.cud(consupdate)
 
-                        MsgBox("Actualizado correctamente")
+                        MessageBox.Show("Datos actualizados correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                         lvexp.Items.Clear()
                         watermarktabexp()
                         RefillExperience()
 
-                        'evitamos que puedas modificar el anterior sin pinchar
-                        idfromexp = 0
                     Catch ex As Exception
-                        MsgBox("Error al actualizar los datos")
+                        MessageBox.Show("No se han podido actualizar los datos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End Try
 
                 End If
             Else
-                MsgBox("Debes introducir los años correctamente")
+                MessageBox.Show("Debes introducir los años correctamente.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
         Else
-            MsgBox("Debes rellenar todos los campos")
+            MessageBox.Show("Debes rellenar todos los campos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 
     End Sub
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Guardamos registros de extras
+    'We check fields and store extras in the database.
     Private Sub btnextsave_Click(sender As Object, e As EventArgs) Handles btnextsave.Click
         Dim consupdate, consinsert As String
 
         If (txtbexttittle.Text <> txtbexttittle.Tag And txtbexttype.Text <> txtbexttype.Tag) Then
-            consupdate = "UPDATE formacion2 SET tipo ='" & txtbexttype.Text & "', titulo='" & txtbexttittle.Text & "' WHERE id = " & idfromext & " and dni = '44059473Y'"
+            consupdate = "UPDATE formacion2 SET tipo ='" & txtbexttype.Text & "', titulo='" & txtbexttittle.Text & "' WHERE id = " & idfromext & " and dni = '" & dni & "'"
 
             If (db.cud(consupdate) = 0) Then
 
-                consinsert = "INSERT INTO formacion2 (`dni`, `id`, `tipo`, `titulo`) VALUES ('44059473Y'," & setId("formacion2") & ", '" & txtbexttype.Text & "','" & txtbexttittle.Text & "')"
+                consinsert = "INSERT INTO formacion2 (`dni`, `id`, `tipo`, `titulo`) VALUES ('" & dni & "'," & setId("formacion2") & ", '" & txtbexttype.Text & "','" & txtbexttittle.Text & "')"
 
                 If (total < 3) Then
                     Try
                         db.cud(consinsert)
 
-                        MsgBox("Insertado correctamente")
+                        MessageBox.Show("Datos insertados correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                         lvextras.Items.Clear()
                         watermarktabext()
                         RefillExtras()
                     Catch ex As Exception
-                        MsgBox("Error al insertar los datos")
+                        MessageBox.Show("Se ha producido un error al insertar los datos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     End Try
                 Else
-                    MsgBox("Debes eliminar un campo, solo puedes tener 3 como máximo")
+                    MessageBox.Show("Debes eliminar un campo, solo puedes tener 3 como máximo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
             Else
                 Try
                     db.cud(consupdate)
-
-                    MsgBox("Actualizado correctamente")
-
-                    lvextras.Items.Clear()
-                    watermarktabext()
-                    RefillExtras()
-
-                    'evitamos que puedas modificar el anterior sin pinchar
-                    idfromext = 0
                 Catch ex As Exception
-                    MsgBox("Error al actualizar los datos")
+                    MessageBox.Show("No se han podido actualizar los datos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
+
+                MessageBox.Show("Datos actualizados correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                lvextras.Items.Clear()
+                watermarktabext()
+                RefillExtras()
             End If
         Else
-            MsgBox("Debes rellenar todos los campos")
+            MessageBox.Show("Debes rellenar todos los campos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
     '---------------------------------------------------------------^
 
     '---------------------------------------------------------------ˇ
-    'Abrimos el panel para que el usuario seleccione la foto
+    'We open the panel for the user to select the photo
     Private Sub btnupphoto_Click(sender As Object, e As EventArgs) Handles btnupphoto.Click
         Dim ofd As New OpenFileDialog()
         ofd.Filter = "Archivos de imagen (*.png, *.jpg)|*.png;*.jpg"
         ofd.Title = "Selecciona una imagen"
 
-        'Show the Dialog. Get the path of the file.
         If ofd.ShowDialog() = DialogResult.OK Then
             path = ofd.FileName.Replace("\", "\\")
+            pbphoto.Image = Image.FromFile(path)
+            UserPhoto.Image = Image.FromFile(path)
         End If
-
-        pbphoto.Image = Image.FromFile(path)
-        UserPhoto.Image = Image.FromFile(path)
     End Sub
     '---------------------------------------------------------------^
-
-    '---------------------------------------------------------------ˇ
-    'Transformamos la fecha cuando el usuario la selecione
-    Private Sub dtpbirth_ValueChanged(sender As Object, e As EventArgs) Handles dtpbirth.ValueChanged
-        dateA = dtpbirth.Value.Date
-        FinalDate = transformDate(dateA)
-    End Sub
-    '---------------------------------------------------------------^
-
 End Class
