@@ -32,7 +32,7 @@ Public Class DataAccess
         Try
             num = comn.ExecuteNonQuery()
         Catch ex As Exception
-            MsgBox("Error al ejecutar la consulta 1")
+            'MsgBox("Error al ejecutar la consulta 1")
         End Try
 
         disconnect(conex)
@@ -50,7 +50,7 @@ Public Class DataAccess
         Try
             adap.Fill(ds, "Users")
         Catch ex As Exception
-            MsgBox("Error al ejecutar la consulta 2")
+            'MsgBox("Error al ejecutar la consulta 2")
         End Try
 
         disconnect(conex)

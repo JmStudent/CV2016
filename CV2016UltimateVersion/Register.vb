@@ -1,7 +1,5 @@
-﻿Public Class Register
+﻿Partial Class Register
     Dim ad As New DataAccess
-    Private isMouseDown As Boolean = False
-    Private mouseOffset As Point
     Private bv As New Behavior
     Private Const userTxtDefault As String = "DNI Usuario"
     Private Const emailTxtDefault As String = "Email Usuario"
@@ -19,36 +17,6 @@
         tbxConfirmPW.Text = pwCTxtDefault
     End Sub
 
-    ' FUNCTIONS FOR WINDOW MOVEMENT ------------------------------------------------------------------------
-
-    ' Left mouse button pressed
-    Private Sub Register_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
-        If e.Button = sender.MouseButtons.Left Then
-            ' Get the new position
-            mouseOffset = New Point(-e.X, -e.Y)
-            ' Set that left button is pressed
-            isMouseDown = True
-        End If
-    End Sub
-
-    ' MouseMove used to check if mouse cursor is moving
-    Private Sub Register_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
-        If isMouseDown Then
-            Dim mousePos As Point = Control.MousePosition
-            ' Get the new form position
-            mousePos.Offset(mouseOffset.X, mouseOffset.Y)
-            Me.Location = mousePos
-        End If
-    End Sub
-
-    ' Left mouse button released, form should stop moving
-    Private Sub Register_MouseUp(sender As Object, e As MouseEventArgs) Handles Me.MouseUp
-        If e.Button = sender.MouseButtons.Left Then
-            isMouseDown = False
-        End If
-    End Sub
-
-    ' ------------------------------------------------------------------------------------------------------
     ' FUNCTIONS FOR DISPLAYING TOOLTIPS --------------------------------------------------------------------
 
     Private Sub tbxUser_Enter(ByVal sender As Object, ByVal e As EventArgs) Handles tbxUser.Enter
@@ -83,6 +51,8 @@
         bv.changeColor(tbxConfirmPW, pwCTxtDefault)
     End Sub
 
+    ' ------------------------------------------------------------------------------------------------------
+
     Private Sub btRegister_Click(sender As Object, e As EventArgs) Handles btnRegister.Click
         Dim Query As String
         Dim RecordsDs As DataSet
@@ -90,35 +60,27 @@
         Dim correctNIF As Boolean = False
         Dim correctEmail As Boolean = False
 
-        If tbxUser.Text = "DNI Usuario" Then
+        If tbxUser.Text = userTxtDefault Then
             epUser.SetError(tbxUser, "El campo DNI no puede estar vacío")
         Else
             epUser.Clear()
         End If
 
-        If tbxEmail.Text = "Email Usuario" Then
+        If tbxEmail.Text = emailTxtDefault Then
             epEmail.SetError(tbxEmail, "El campo Email no puede estar vacío")
         Else
             epEmail.Clear()
         End If
 
-        If tbxPW.Text = "Contraseña" Then
-            epPW.SetError(tbxPW, "El campo Contraseña no puede estar vacío")
+        If tbxPW.Text = pwTxtDefault Then
+            epPW.SetError(tbxPW, "El campo Password no puede estar vacío")
         Else
             epPW.Clear()
         End If
 
-        If tbxConfirmPW.Text = "Confirma Contraseña" Then
-            epConfirmPW.SetError(tbxConfirmPW, "El campo Confirmar Contraseña no puede estar vacío")
+        If tbxConfirmPW.Text = pwCTxtDefault Then
+            epConfirmPW.SetError(tbxConfirmPW, "El campo Confirmar Password no puede estar vacío")
         Else
-            epConfirmPW.Clear()
-        End If
-
-        If tbxPW.Text <> tbxConfirmPW.Text Then
-            epPW.SetError(tbxPW, "Las contraseñas son diferentes")
-            epConfirmPW.SetError(tbxConfirmPW, "Las contraseñas son diferentes")
-        Else
-            epPW.Clear()
             epConfirmPW.Clear()
         End If
 
@@ -139,8 +101,14 @@
         End If
 
         If checkPW(tbxPW.Text) Then
-            correct = True
-            epPW.Clear()
+            If tbxPW.Text <> tbxConfirmPW.Text Then
+                epPW.SetError(tbxPW, "Las contraseñas son diferentes")
+                epConfirmPW.SetError(tbxConfirmPW, "Las contraseñas son diferentes")
+            Else
+                correct = True
+                epPW.Clear()
+                epConfirmPW.Clear()
+            End If
         Else
             epPW.SetError(tbxPW, "Debe introducir una contraseña de 8 a 16 caracteres (minimo 1 digito, 1 mayúscula y 1 minúscula")
             correct = False
@@ -157,15 +125,14 @@
                 tbxEmail.ForeColor = Color.Gray
                 tbxPW.ForeColor = Color.Gray
                 tbxConfirmPW.ForeColor = Color.Gray
-                tbxUser.Text = "DNI Usuario"
-                tbxEmail.Text = "Email Usuario"
-                tbxPW.Text = "Contraseña"
-                tbxConfirmPW.Text = "Confirma Contraseña"
+                tbxUser.Text = userTxtDefault
+                tbxEmail.Text = emailTxtDefault
+                tbxPW.Text = pwTxtDefault
+                tbxConfirmPW.Text = pwCTxtDefault
             Else
                 Dim pwMD5 = Encriptar(tbxPW.Text)
                 Query = "INSERT INTO usuarios VALUES('" & tbxUser.Text.ToUpper & "','" & pwMD5 & "', 0)"
                 ad.cud(Query)
-                MessageBox.Show("Usuario registrado con éxito. El administrador debe desbloquear su cuenta", "Aviso de registro", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
                 Query = "INSERT INTO perfil (dni, email) VALUES('" & tbxUser.Text & "','" & tbxEmail.Text & "')"
                 ad.cud(Query)
                 tbxPW.UseSystemPasswordChar = False
@@ -174,10 +141,13 @@
                 tbxEmail.ForeColor = Color.Gray
                 tbxPW.ForeColor = Color.Gray
                 tbxConfirmPW.ForeColor = Color.Gray
-                tbxUser.Text = "DNI Usuario"
-                tbxEmail.Text = "Email Usurio"
-                tbxPW.Text = "Contraseña"
-                tbxConfirmPW.Text = "Confirma Contraseña"
+                tbxUser.Text = userTxtDefault
+                tbxEmail.Text = emailTxtDefault
+                tbxPW.Text = pwTxtDefault
+                tbxConfirmPW.Text = pwCTxtDefault
+                MessageBox.Show("Usuario registrado con éxito. El administrador debe desbloquear su cuenta", "Aviso de registro", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+                Login.Show()
+                Me.Close()
             End If
         Else
             MessageBox.Show("No se han podido insertar los datos", "Aviso de registro", MessageBoxButtons.OK, MessageBoxIcon.Error)
